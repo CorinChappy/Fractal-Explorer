@@ -9,6 +9,14 @@ public class ComplexNumber {
 		imaginary = i;
 	}
 	
+	public int getReal(){
+		return real;
+	}
+	
+	public int getImaginary(){
+		return imaginary;
+	}
+	
 	public void square(){
 		//a^2-b^2+(2ab)i
 		
@@ -18,11 +26,13 @@ public class ComplexNumber {
 	}
 	
 	public double modulusSquared(){
-		
-		return 0.0;
+		double mod = Math.sqrt((real*real)+(imaginary*imaginary));
+		return (mod*mod);
 	}
 	
 	public void add(ComplexNumber d){
+		real += d.getReal();
+		imaginary += d.getImaginary();
 		
 	}
 	
