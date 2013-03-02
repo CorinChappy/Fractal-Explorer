@@ -1,39 +1,46 @@
 
 public class ComplexNumber {
 	
-	private int real;
-	private int imaginary;
+	private double real;
+	private double imaginary;
 	
-	public ComplexNumber(int r, int i){
+	public ComplexNumber(double r, double i){
 		real = r;
 		imaginary = i;
 	}
 	
-	public int getReal(){
+	public ComplexNumber(ComplexNumber c){
+		real = c.getReal();
+		imaginary = c.getImaginary();
+	}
+	
+	public double getReal(){
 		return real;
 	}
 	
-	public int getImaginary(){
+	public double getImaginary(){
 		return imaginary;
 	}
 	
-	public void square(){
+	public ComplexNumber square(){
 		//a^2-b^2+(2ab)i
 		
 		// Set the real and imaginary values
 		real = ((real*real)-(imaginary*imaginary));
 		imaginary = 2*real*imaginary;
+		
+		return this;
 	}
 	
 	public double modulusSquared(){
-		double mod = Math.sqrt((real*real)+(imaginary*imaginary));
-		return (mod*mod);
+		return (real*real)+(imaginary*imaginary);
 	}
 	
-	public void add(ComplexNumber d){
+	public ComplexNumber add(ComplexNumber d){
 		real += d.getReal();
 		imaginary += d.getImaginary();
 		
+		return this;
 	}
 	
 }
