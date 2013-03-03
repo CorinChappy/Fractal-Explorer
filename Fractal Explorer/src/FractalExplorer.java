@@ -64,6 +64,7 @@ public class FractalExplorer extends JFrame{
 		private JTextField maxR;
 		private JTextField minI;
 		private JTextField maxI;
+		private JSlider itSlider;
 
 
 		public ControlPanel(Mandelbrot m) {
@@ -97,7 +98,7 @@ public class FractalExplorer extends JFrame{
 			gbc_lblNewLabel.gridy = 1;
 			add(lblNewLabel, gbc_lblNewLabel);
 
-			JSlider itSlider = new JSlider();
+			itSlider = new JSlider();
 			itSlider.setValue(100);
 			itSlider.setMinimum(10);
 			itSlider.setMaximum(1000);
@@ -231,6 +232,10 @@ public class FractalExplorer extends JFrame{
 			// Set the default values
 			itSlider.setValue(p.getMaxIterations());
 			itDisplay.setText(""+p.getMaxIterations()+"");
+			minR.setText(""+p.getMinReal()+"");
+			maxR.setText(""+p.getMaxReal()+"");
+			minI.setText(""+p.getMinImaginary()+"");
+			maxI.setText(""+p.getMaxImaginary()+"");
 			
 			
 			// Create the event listeners
@@ -253,8 +258,28 @@ public class FractalExplorer extends JFrame{
 					itDisplay.setText(""+((JSlider) e.getSource()).getValue()+"");
 				}
 			});
+			
+			// Change the settings and redraw the set
+			redraw.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// Set the iterations
+					p.setMaxIterations(itSlider.getValue());
+					// Set the bounds
+					try{
+						p.setRealRange(Double.parseDouble(minR.getText()), Double.parseDouble(maxR.getText()));
+					}catch(NumberFormatException e){}
+					try{
+						p.setImaginaryRange(Double.parseDouble(minI.getText()), Double.parseDouble(maxI.getText()));
+					}catch(NumberFormatException e){}
+					
+					// Repaint the set
+					p.repaint();
+				}
+			});
 
 		}
+		
+		
 
 
 	}
