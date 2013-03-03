@@ -25,9 +25,13 @@ public class ComplexNumber {
 	public ComplexNumber square(){
 		//a^2-b^2+(2ab)i
 		
+		// Create temp variables to store the old real and imaginary
+		double tReal = real;
+		double tImag = imaginary;
+		
 		// Set the real and imaginary values
-		real = ((real*real)-(imaginary*imaginary));
-		imaginary = 2*real*imaginary;
+		real = ((tReal*tReal)-(tImag*tImag));
+		imaginary = 2*tReal*tImag;
 		
 		return this;
 	}
