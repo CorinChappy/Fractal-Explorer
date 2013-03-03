@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,13 +7,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.text.JTextComponent;
 
 
 @SuppressWarnings("serial")
 public class FractalExplorer extends JFrame{
-
-	// SOLUTION MUST BE CHANGED
-	JTextArea uspT;
 
 	public static void main(String[] args) {
 		new FractalExplorer().createMandelbrot();
@@ -32,25 +29,24 @@ public class FractalExplorer extends JFrame{
 	}
 	
 	public void createMandelbrot(){		
-		// Create and add the user selected point panel
-		JPanel usp = new JPanel(new GridLayout(1,1));
-		uspT = new JTextArea();
-		usp.add(uspT);
-		
-		this.add(usp,BorderLayout.NORTH);
-		
-		// Create and add the editing panel
-		JPanel controls = new JPanel(new FlowLayout());
-		
-		this.add(controls,BorderLayout.SOUTH);
-		
-		
 		// Create and add the display panel
 		Mandelbrot m = new Mandelbrot();
 		this.add(m, BorderLayout.CENTER);
 		
+		
+		// Create and add the user selected point panel
+		JPanel usp = new JPanel(new GridLayout(1,1));
+		JTextArea uspT = new JTextArea();
+		usp.add(uspT);
+		this.add(usp,BorderLayout.NORTH);
+		
 		// Add the Mandelbrot listener 
-		m.addMouseListener(new MClicker(m));
+		m.addMouseListener(new MClicker(m,uspT));
+		
+		// Create and add the editing panel
+		JPanel controls = new ControlPanel(m);
+		this.add(controls,BorderLayout.SOUTH);
+		
 		
 		m.repaint();
 		this.repaint();
@@ -58,7 +54,23 @@ public class FractalExplorer extends JFrame{
 	
 	
 	
-	
+	// Control panel to display the controls bellow the mandelbrot set
+	private class ControlPanel extends JPanel{
+		
+		Mandelbrot m;
+		
+		public ControlPanel(Mandelbrot m){
+			this.m = m;
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+	}
 	
 	
 	
@@ -66,14 +78,16 @@ public class FractalExplorer extends JFrame{
 	// Mouse listener for showing the Julia set and complex number (not implemented)
 	private class MClicker extends MouseAdapter{
 		Mandelbrot m;
+		JTextComponent t;
 		
-		public MClicker(Mandelbrot m){
+		public MClicker(Mandelbrot m, JTextComponent t){
 			this.m = m;
+			this.t = t;
 		}
 		
 		public void mouseClicked(MouseEvent e){
 			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
-			uspT.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
+			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
 		}
 		
 		
