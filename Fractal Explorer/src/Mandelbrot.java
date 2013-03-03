@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+
 import javax.swing.JPanel;
 
 
@@ -75,8 +77,8 @@ public class Mandelbrot extends JPanel{
 		if(showAxis){
 			// Draw some red lines for axis and shit
 			g.setColor(Color.RED);
-			g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
-			g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
+			g.drawLine(getPoint(new ComplexNumber(minR,0)). x,getPoint(new ComplexNumber(minR,0)).y, getPoint(new ComplexNumber(maxR,0)). x,getPoint(new ComplexNumber(maxR,0)).y);
+			g.drawLine(getPoint(new ComplexNumber(0,minI)). x,getPoint(new ComplexNumber(0,minI)).y, getPoint(new ComplexNumber(0,maxI)). x,getPoint(new ComplexNumber(0,maxI)).y);
 		}
 	}
 
@@ -95,6 +97,25 @@ public class Mandelbrot extends JPanel{
 
 
 		return new ComplexNumber(real, imaginary);
+	}
+	
+	// Helper function, gets the pixel point for a complex number
+	public Point getPoint(ComplexNumber c){
+		// Represents the how much on the r-i axis to move per pixel
+		double stepX = (maxR-minR)/this.getWidth();
+		double stepY = (maxI-minI)/this.getHeight();
+		
+		double x = c.getReal();
+		double y = c.getImaginary();
+		
+		x = x - minR;
+		y = maxI - y;
+		
+		x = x/stepX;
+		y = y/stepY;
+		
+		return new Point((int) x,(int) y);
+		
 	}
 
 
