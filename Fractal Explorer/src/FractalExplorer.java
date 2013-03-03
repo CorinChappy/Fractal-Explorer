@@ -33,10 +33,10 @@ public class FractalExplorer extends JFrame{
 
 
 		// Create and add the user selected point panel
-		JPanel usp = new JPanel(new GridLayout(1,1));
+		JPanel uspC = new JPanel(new GridLayout(1,1));
 		JTextArea uspT = new JTextArea("Select a point to see it's complex number");
-		usp.add(uspT);
-		this.add(usp,BorderLayout.NORTH);
+		uspC.add(uspT);
+		this.add(uspC,BorderLayout.NORTH);
 
 		// Add the Mandelbrot listener 
 		m.addMouseListener(new MClicker(m,uspT));
