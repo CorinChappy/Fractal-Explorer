@@ -15,21 +15,32 @@ public class Mandelbrot extends JPanel{
 	// booleans to represent enabled functions
 	private boolean showAxis = true;
 
-	public final static int ITTERATIONS = 1000;
+	// Iteration variables
+	public final static int DEFAULT_ITERATIONS = 100;
+	private int iterations;
 
-	public Mandelbrot(double minR, double maxR, double minI, double maxI){
+	public Mandelbrot(double minR, double maxR, double minI, double maxI, int itter){
 		// Set the min & max
 		this.minR = minR;
 		this.maxR = maxR;
 		this.minI = minI;
 		this.maxI = maxI;
+		
+		// Set the iterations
+		this.iterations = itter;
 
 		this.setBackground(Color.WHITE);
+		
+	}
+	
+	// Other constructors
+	public Mandelbrot(double minR, double maxR, double minI, double maxI){
+		this(minR, maxR, minI, maxI, DEFAULT_ITERATIONS);
 	}
 
 	// Default constructor
 	public Mandelbrot(){
-		this(-2.0,2.0,-1.6,1.6);
+		this(-2.0,2.0,-1.6,1.6, DEFAULT_ITERATIONS);
 	}
 
 
@@ -44,7 +55,7 @@ public class Mandelbrot extends JPanel{
 				ComplexNumber c2 = new ComplexNumber(c1);
 				// Calculate divergence up to ITTERATIONS
 				int n = 0;
-				while(n<=ITTERATIONS){
+				while(n<=iterations){
 					// Escape if it does diverge
 					if(c2.modulusSquared() >= 4.0){
 						break;
@@ -54,18 +65,19 @@ public class Mandelbrot extends JPanel{
 					n++;
 				}
 
-				if(showAxis){
-					// Paint the on the pixel according to the iterations
-					g.setColor(genColor(n,c2));
-					g.drawLine(X, Y, X, Y);
-				}
+
+				// Paint the on the pixel according to the iterations
+				g.setColor(genColor(n,c2));
+				g.drawLine(X, Y, X, Y);
 
 			}
 		}
-		// Draw some red lines for axis and shit
-		g.setColor(Color.RED);
-		g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
-		g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
+		if(showAxis){
+			// Draw some red lines for axis and shit
+			g.setColor(Color.RED);
+			g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
+			g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
+		}
 	}
 
 	// Helper function, takes an x and y coordinate and finds it's complex number associated with it
@@ -96,8 +108,8 @@ public class Mandelbrot extends JPanel{
 		 */
 
 
-		int div = 1677216/ITTERATIONS;
-		//int div = 255/ITTERATIONS;
+		int div = 1677216/iterations;
+		//int div = 255/iterations;
 
 		int colnum = div*it;
 
@@ -106,4 +118,62 @@ public class Mandelbrot extends JPanel{
 
 
 
+
+
+
+
+
+	// Method to display the axis
+	public void displayAxis(boolean a){
+		showAxis = a;
+		this.repaint();
+	}
+	
+	// Getters and setters for the maximum iterations
+	public int getMaxIterations(){
+		return iterations;
+	}
+
+	public void setMaxIterations(int i){
+		iterations = i;
+	}
+	
+	// Getters and setters for the ranges
+	public double getMinReal(){
+		return minR;
+	}
+	public double getMaxReal(){
+		return maxR;
+	}
+	public double getMinImaginary(){
+		return minI;
+	}
+	public double getMaxImaginary(){
+		return maxI;
+	}
+	
+	public void setMinReal(double v){
+		minR = v;
+	}
+	public void setMaxReal(double v){
+		maxR = v;
+	}
+	public void setMinImaginary(double v){
+		minI = v;
+	}
+	public void setMaxImaginary(double v){
+		maxI = v;
+	}
+	
+	// Helpers that set the ranges
+	public void setRealRange(double low, double high){
+		setMinReal(low);
+		setMaxReal(high);
+	}
+	public void setImaginaryRange(double low, double high){
+		setMinImaginary(low);
+		setMaxImaginary(high);
+	}
+	
+	
 }

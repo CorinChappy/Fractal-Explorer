@@ -10,8 +10,8 @@ public class ComplexNumber {
 	}
 	
 	public ComplexNumber(ComplexNumber c){
-		real = c.getReal();
-		imaginary = c.getImaginary();
+		real = c.real;
+		imaginary = c.imaginary;
 	}
 	
 	public double getReal(){
