@@ -1,8 +1,5 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-
 import javax.swing.JPanel;
 
 
@@ -15,29 +12,29 @@ public class Mandelbrot extends JPanel{
 	private double minI;
 	private double maxI;
 	
-	public final static int ITTERATIONS = 100;
+	// booleans to represent enabled functions
 	
-	public Mandelbrot(){
+	public final static int ITTERATIONS = 1000;
+	
+	public Mandelbrot(double minR, double maxR, double minI, double maxI){
 		// Set the min & max
-		minR = -2;
-		maxR = 2;
-		minI = -1.6;
-		maxI = 1.6;
+		this.minR = minR;
+		this.maxR = maxR;
+		this.minI = minI;
+		this.maxI = maxI;
 		
-		this.addMouseListener(new Listener());
-		//this.setBackground(Color.WHITE);
+		this.setBackground(Color.WHITE);
 		this.setSize(400,400);
-		
-		
+	}
+	
+	// Default constructor
+	public Mandelbrot(){
+		this(-2.0,2.0,-1.6,1.6);
 	}
 
 	
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
-		// Draw some red lines for stuff and things
-		g.setColor(Color.RED);
-		g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
-		g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
 		
 		// Paint each pixel with the x axis then the y axis
 		for(int Y=0; Y<=this.getHeight(); Y++){
@@ -62,92 +59,48 @@ public class Mandelbrot extends JPanel{
 				
 			}
 		}
+		// Draw some red lines for axis and shit
 		g.setColor(Color.RED);
 		g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
 		g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
 	}
 	
-	// Helper, takes point and finds it's complex number
-	private ComplexNumber getComplex(int x, int y){
+	// Helper function, takes an x and y coordinate and finds it's complex number associated with it
+	public ComplexNumber getComplex(int x, int y){
 		// Represents the how much on the r-i axis to move per pixel
 		double stepX = (maxR-minR)/this.getWidth();
 		double stepY = (maxI-minI)/this.getHeight();
-		//if(this.getWidth() != 400 || this.getWidth() != 400)
-		//	System.out.println(" SCRE: "+this.getWidth()+" - "+this.getHeight());
+
+		
 		// Move the coordinates to the right place in the r-t axis
 		double real = x*stepX;
 		double imaginary = y*stepY;
 		real = minR + real;
 		imaginary = maxI - imaginary;
 		
-		//if(real <= maxR && imaginary >= minI){
-			return new ComplexNumber(real, imaginary);
-		//}else{
-		//	return null;
-		//}
+
+		return new ComplexNumber(real, imaginary);
 	}
 	
 	
 	// Gets the colour the display from the number of iterations
 	// TODO: create a better algorithm
 	private Color genColor(int it, ComplexNumber c){
-		/*float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
+		/* SUPER FUNKY COlOURS
+		float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
 		
 		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
 		*/
-		if(it <= 10) return Color.YELLOW;
-		if(it <= 20) return Color.LIGHT_GRAY;
-		if(it <= 30) return Color.PINK;
-		if(it <= 40) return Color.MAGENTA;
-		if(it <= 50) return Color.GREEN;
-		
-		if(it <= 60) return Color.BLUE;
-		if(it <= 70) return Color.CYAN;
-		if(it <= 80) return Color.RED;
-		if(it <= 90) return Color.ORANGE;
 		
 		
+		int div = 1677216/ITTERATIONS;
+		//int div = 255/ITTERATIONS;
 		
-		if(it >= ITTERATIONS) return Color.BLACK;
-		//return Color.WHITE;
-		return null;*/
+		int colnum = div*it;
+		
+		return new Color(colnum);
 	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// Helper function takes a complex number and converts it into a point on the normalised axis
-	private Point getPoint(ComplexNumber c){
-		// Represents the number per px on the screen
-		double stepX = (maxR-minR)/this.getWidth();
-		double stepY = (maxI-minI)/this.getHeight();
-		
-		
-		
-		return null;
-	}
-	
-	
-	// Helper function takes a point from the normalised axis
-	// and returns where it actually is on the panel 
-	private Point getCoords(Point p){
-		Point c = new Point(this.getWidth()/2,this.getHeight()/2);
-		c.translate(p.x, p.y);
-		return c;
-	}
-	
-	// Mouse listener for showing the Julia set (not implemented)
-	private class Listener extends MouseAdapter{
-		
-	}
 }
