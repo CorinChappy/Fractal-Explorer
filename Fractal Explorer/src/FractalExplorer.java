@@ -46,8 +46,6 @@ public class FractalExplorer extends JFrame{
 		this.add(controls,BorderLayout.SOUTH);
 
 
-		m.repaint();
-		this.repaint();
 		this.pack();
 	}
 
