@@ -53,9 +53,9 @@ public class Mandelbrot extends JPanel{
 		for(int Y=0; Y<=this.getHeight(); Y++){
 			for(int X=0; X<=this.getWidth(); X++){
 				// Do the work per-pixel here
-				ComplexNumber c1 = getComplex(X, Y); //if(this.getWidth() != 400 || this.getWidth() != 400) System.out.println(this.getWidth()+" - "+this.getHeight());
+				ComplexNumber c1 = getComplex(X, Y);
 				ComplexNumber c2 = new ComplexNumber(c1);
-				// Calculate divergence up to ITTERATIONS
+				// Calculate divergence up to given iteration
 				int n = 0;
 				while(n<=iterations){
 					// Escape if it does diverge
