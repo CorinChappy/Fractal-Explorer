@@ -1,10 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-
 import javax.swing.JFrame;
 
 
+@SuppressWarnings("serial")
 public class FractalExplorer extends JFrame{
 
 
@@ -15,11 +14,11 @@ public class FractalExplorer extends JFrame{
 	
 	public FractalExplorer(){
 		super("Fractal Explorer");
-		this.setSize(new Dimension(400, 400));
+		this.setPreferredSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		
-		//this.pack();
+		this.pack();
 		this.setVisible(true);
 	}
 	

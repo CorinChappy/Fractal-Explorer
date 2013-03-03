@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class Mandelbrot extends JPanel{
 	
 	// ints to represent the ranges
@@ -14,7 +15,7 @@ public class Mandelbrot extends JPanel{
 	private double minI;
 	private double maxI;
 	
-	public final static int ITTERATIONS = 10000;
+	public final static int ITTERATIONS = 100;
 	
 	public Mandelbrot(){
 		// Set the min & max
@@ -24,11 +25,12 @@ public class Mandelbrot extends JPanel{
 		maxI = 1.6;
 		
 		this.addMouseListener(new Listener());
-		this.setBackground(Color.WHITE);
+		//this.setBackground(Color.WHITE);
 		this.setSize(400,400);
 		
 		
 	}
+
 	
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -41,21 +43,21 @@ public class Mandelbrot extends JPanel{
 		for(int Y=0; Y<=this.getHeight(); Y++){
 			for(int X=0; X<=this.getWidth(); X++){
 				// Do the work per-pixel here
-				ComplexNumber c1 = getComplex(X, Y);
+				ComplexNumber c1 = getComplex(X, Y); //if(this.getWidth() != 400 || this.getWidth() != 400) System.out.println(this.getWidth()+" - "+this.getHeight());
 				ComplexNumber c2 = new ComplexNumber(c1);
 				// Calculate divergence up to ITTERATIONS
 				int n = 0;
 				while(n<=ITTERATIONS){
 					// Escape if it does diverge
-					if(c2.modulusSquared() >= 4){
+					if(c2.modulusSquared() >= 4.0){
 						break;
 					}
 					// Do the formula: Z(i+1) = (Z(i) * Z(i)) + c. Where c = c1 and Z(i) = c2;
-					c2 = c2.square().add(c1);
+					c2.square().add(c1);
 					n++;
 				}
 				// Paint the on the pixel according to the iterations
-				g.setColor(genColor(n));
+				g.setColor(genColor(n,c2));
 				g.drawLine(X, Y, X, Y);
 				
 			}
@@ -70,14 +72,15 @@ public class Mandelbrot extends JPanel{
 		// Represents the how much on the r-i axis to move per pixel
 		double stepX = (maxR-minR)/this.getWidth();
 		double stepY = (maxI-minI)/this.getHeight();
-		
+		//if(this.getWidth() != 400 || this.getWidth() != 400)
+		//	System.out.println(" SCRE: "+this.getWidth()+" - "+this.getHeight());
 		// Move the coordinates to the right place in the r-t axis
 		double real = x*stepX;
 		double imaginary = y*stepY;
 		real = minR + real;
 		imaginary = maxI - imaginary;
 		
-		//if(real <= maxX && imaginary >= minY){
+		//if(real <= maxR && imaginary >= minI){
 			return new ComplexNumber(real, imaginary);
 		//}else{
 		//	return null;
@@ -87,25 +90,27 @@ public class Mandelbrot extends JPanel{
 	
 	// Gets the colour the display from the number of iterations
 	// TODO: create a better algorithm
-	private Color genColor(int it){
+	private Color genColor(int it, ComplexNumber c){
+		/*float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
 		
-		
-		/*
-		if(it <= 10) return Color.YELLOW;
-		//if(it <= 20) return Color.LIGHT_GRAY;
-		//if(it <= 30) return Color.PINK;
-		if(it <= 40) return Color.MAGENTA;
-		//if(it <= 50) return Color.GREEN;
-		
-		//if(it <= 60) return Color.BLUE;
-		//if(it <= 70) return Color.CYAN;
-		if(it <= 80) return Color.RED;
-		//if(it <= 90) return Color.ORANGE;
+		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
 		*/
+		if(it <= 10) return Color.YELLOW;
+		if(it <= 20) return Color.LIGHT_GRAY;
+		if(it <= 30) return Color.PINK;
+		if(it <= 40) return Color.MAGENTA;
+		if(it <= 50) return Color.GREEN;
+		
+		if(it <= 60) return Color.BLUE;
+		if(it <= 70) return Color.CYAN;
+		if(it <= 80) return Color.RED;
+		if(it <= 90) return Color.ORANGE;
+		
 		
 		
 		if(it >= ITTERATIONS) return Color.BLACK;
-		return Color.WHITE;
+		//return Color.WHITE;
+		return null;*/
 	}
 	
 	
