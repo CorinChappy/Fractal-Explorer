@@ -5,8 +5,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
-import net.miginfocom.swing.MigLayout;
-
 
 @SuppressWarnings("serial")
 public class FractalExplorer extends JFrame{

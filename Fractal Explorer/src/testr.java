@@ -1,16 +1,14 @@
 import javax.swing.JPanel;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JSlider;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JButton;
 
 
+@SuppressWarnings("serial")
 public class testr extends JPanel {
 	private JTextField itDisplay;
 	private JTextField minR;

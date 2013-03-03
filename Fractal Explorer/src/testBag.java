@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 
+@SuppressWarnings("serial")
 public class testBag extends JPanel {
 	private JTextField itDisplay;
 	private JTextField maxI;
