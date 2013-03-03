@@ -21,7 +21,7 @@ public class Mandelbrot extends JPanel{
 	public final static int DEFAULT_ITERATIONS = 100;
 	private int iterations;
 
-	public Mandelbrot(double minR, double maxR, double minI, double maxI, int itter){
+	public Mandelbrot(double minR, double maxR, double minI, double maxI, int iter){
 		// Set the min & max
 		this.minR = minR;
 		this.maxR = maxR;
@@ -29,7 +29,7 @@ public class Mandelbrot extends JPanel{
 		this.maxI = maxI;
 		
 		// Set the iterations
-		this.iterations = itter;
+		this.iterations = iter;
 
 		this.setBackground(Color.WHITE);
 		
@@ -38,6 +38,10 @@ public class Mandelbrot extends JPanel{
 	// Other constructors
 	public Mandelbrot(double minR, double maxR, double minI, double maxI){
 		this(minR, maxR, minI, maxI, DEFAULT_ITERATIONS);
+	}
+	
+	public Mandelbrot(int iter){
+		this(-2.0,2.0,-1.6,1.6, iter);
 	}
 
 	// Default constructor
