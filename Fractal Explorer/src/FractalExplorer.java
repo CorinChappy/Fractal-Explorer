@@ -31,14 +31,7 @@ public class FractalExplorer extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public void createMandelbrot(){
-		// Create and add the display panel
-		Mandelbrot m = new Mandelbrot();
-		this.add(m, BorderLayout.CENTER);
-		
-		// Add the Mandelbrot listener 
-		m.addMouseListener(new MClicker(m));
-		
+	public void createMandelbrot(){		
 		// Create and add the user selected point panel
 		JPanel usp = new JPanel(new GridLayout(1,1));
 		uspT = new JTextArea();
@@ -49,8 +42,18 @@ public class FractalExplorer extends JFrame{
 		// Create and add the editing panel
 		JPanel controls = new JPanel(new FlowLayout());
 		
-		
 		this.add(controls,BorderLayout.SOUTH);
+		
+		
+		// Create and add the display panel
+		Mandelbrot m = new Mandelbrot();
+		this.add(m, BorderLayout.CENTER);
+		
+		// Add the Mandelbrot listener 
+		m.addMouseListener(new MClicker(m));
+		
+		m.repaint();
+		this.repaint();
 	}
 	
 	

@@ -24,7 +24,6 @@ public class Mandelbrot extends JPanel{
 		this.maxI = maxI;
 		
 		this.setBackground(Color.WHITE);
-		this.setSize(400,400);
 	}
 	
 	// Default constructor
