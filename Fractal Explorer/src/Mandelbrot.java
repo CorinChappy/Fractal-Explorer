@@ -32,6 +32,11 @@ public class Mandelbrot extends JPanel{
 	
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
+		// Draw some red lines for stuff and things
+		g.setColor(Color.RED);
+		g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
+		g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
+		
 		// Paint each pixel with the x axis then the y axis
 		for(int Y=0; Y<=this.getHeight(); Y++){
 			for(int X=0; X<=this.getWidth(); X++){
@@ -55,6 +60,9 @@ public class Mandelbrot extends JPanel{
 				
 			}
 		}
+		g.setColor(Color.RED);
+		g.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
+		g.drawLine(this.getWidth()/2, 0, this.getWidth()/2, this.getHeight());
 	}
 	
 	// Helper, takes point and finds it's complex number
