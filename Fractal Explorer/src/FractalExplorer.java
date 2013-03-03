@@ -171,7 +171,7 @@ public class FractalExplorer extends JFrame{
 	
 	// Mouse listener for showing the Julia set and complex number (not implemented)
 	private class MClicker extends MouseAdapter{
-		Mandelbrot m;
+		private Mandelbrot m;
 		JTextComponent t;
 		
 		public MClicker(Mandelbrot m, JTextComponent t){
