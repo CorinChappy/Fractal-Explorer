@@ -21,8 +21,15 @@ public class FractalExplorer extends JFrame{
 		this.setPreferredSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-
-		this.setVisible(true);
+	}
+	
+	Julia createJulia(ComplexNumber c, int iter){
+		Julia j = new Julia(c,iter);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.add(j, BorderLayout.CENTER);
+		this.pack();
+		openJulia = true;
+		return j;
 	}
 
 	public void createMandelbrot(){	
@@ -49,6 +56,7 @@ public class FractalExplorer extends JFrame{
 
 
 		this.pack();
+		this.setVisible(true);
 	}
 
 
@@ -272,6 +280,7 @@ public class FractalExplorer extends JFrame{
 						p.setImaginaryRange(Double.parseDouble(minI.getText()), Double.parseDouble(maxI.getText()));
 					}catch(NumberFormatException e){}
 					
+					
 					// Repaint the set
 					p.repaint();
 				}
@@ -300,6 +309,8 @@ public class FractalExplorer extends JFrame{
 		public void mouseClicked(MouseEvent e){
 			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
 			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
+			m.getJulia(c).setFixedComplex(c);
+			//m.getJulia(c);
 		}
 
 

@@ -1,3 +1,5 @@
+import java.awt.Graphics;
+
 
 @SuppressWarnings("serial")
 public class Julia extends Fractal{
@@ -14,7 +16,35 @@ public class Julia extends Fractal{
 	}
 	
 	
-	
+	protected void paintComponent(Graphics g){
+		super.paintComponent(g);
+
+		// Paint each pixel with the x axis then the y axis
+		for(int Y=0; Y<=this.getHeight(); Y++){
+			for(int X=0; X<=this.getWidth(); X++){
+				// Do the work per-pixel here
+				ComplexNumber d = getComplex(X, Y);
+				// Calculate divergence up to given iteration
+				int n = 0;
+				while(n<=iterations){
+					// Escape if it does diverge
+					if(d.modulusSquared() >= 4.0){
+						break;
+					}
+					// Do the formula: Z(i+1) = (Z(i) * Z(i)) + c. Where c = c and Z(i) = d;
+					d.square().add(c);
+					n++;
+				}
+
+
+				// Paint the on the pixel according to the iterations
+				g.setColor(genColor(n,d));
+				g.drawLine(X, Y, X, Y);
+
+			}
+		}
+		if(showAxis){paintAxis(g);}
+	}
 	
 	
 	
@@ -26,6 +56,8 @@ public class Julia extends Fractal{
 	}
 	public void setFixedComplex(ComplexNumber c){
 		this.c = c;
+		this.repaint();
+		this.getTopLevelAncestor().setVisible(true);
 	}
 	
 	

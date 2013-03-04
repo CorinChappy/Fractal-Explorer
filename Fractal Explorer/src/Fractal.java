@@ -5,6 +5,7 @@ import java.awt.Point;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public abstract class Fractal extends JPanel{
 	
 	
