@@ -231,12 +231,7 @@ class ControlPanel extends JPanel{
 
 
 		// Set the default values
-		itSlider.setValue(p.getMaxIterations());
-		itDisplay.setText(""+p.getMaxIterations()+"");
-		minR.setText(""+p.getMinReal()+"");
-		maxR.setText(""+p.getMaxReal()+"");
-		minI.setText(""+p.getMinImaginary()+"");
-		maxI.setText(""+p.getMaxImaginary()+"");
+		updateValues();
 
 
 		// Create the event listeners
@@ -305,7 +300,14 @@ class ControlPanel extends JPanel{
 
 	}
 
-
+	public void updateValues(){
+		itSlider.setValue(p.getMaxIterations());
+		itDisplay.setText(""+p.getMaxIterations()+"");
+		minR.setText(""+p.getMinReal()+"");
+		maxR.setText(""+p.getMaxReal()+"");
+		minI.setText(""+p.getMinImaginary()+"");
+		maxI.setText(""+p.getMaxImaginary()+"");
+	}
 
 
 }

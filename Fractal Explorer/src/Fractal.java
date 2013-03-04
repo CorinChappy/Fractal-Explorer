@@ -84,6 +84,12 @@ public abstract class Fractal extends JPanel{
 		return new ComplexNumber(real, imaginary);
 	}
 	
+	// Another helper for the above, takes a point instead and simply extracts the x and y
+	// and plugs into the above
+	public ComplexNumber getComplex(Point p){
+		return getComplex(p.x, p.y);
+	}
+	
 	// Helper function, gets the pixel point for a complex number
 	public Point getPoint(ComplexNumber c){
 		// Represents the how much on the r-i axis to move per pixel
@@ -179,5 +185,7 @@ public abstract class Fractal extends JPanel{
 		setMaxImaginary(high);
 	}
 	
+	
+
 
 }
