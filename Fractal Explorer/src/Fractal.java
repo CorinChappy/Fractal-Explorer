@@ -50,7 +50,7 @@ public abstract class Fractal extends JPanel{
 		this(-2.0,2.0,-1.6,1.6, DEFAULT_ITERATIONS);
 	}
 	
-	// Paintcomponent just calls a couple of abstract methods that need to be overridden
+	// paintComponent just calls a couple of abstract methods that need to be overridden
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
 		paintFractal(g);

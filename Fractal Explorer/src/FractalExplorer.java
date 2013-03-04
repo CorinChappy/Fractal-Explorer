@@ -8,8 +8,6 @@ import javax.swing.text.*;
 
 @SuppressWarnings("serial")
 public class FractalExplorer extends JFrame{
-	
-	private boolean openJulia = false;
 
 	public static void main(String[] args) {
 		new FractalExplorer().createMandelbrot();
@@ -28,7 +26,22 @@ public class FractalExplorer extends JFrame{
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.add(j, BorderLayout.CENTER);
 		this.pack();
-		openJulia = true;
+		return j;
+	}
+	
+	Julia createJulia(ComplexNumber c){
+		Julia j = new Julia(c);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.add(j, BorderLayout.CENTER);
+		this.pack();
+		return j;
+	}
+	
+	Julia createJulia(){
+		Julia j = new Julia();
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.add(j, BorderLayout.CENTER);
+		this.pack();
 		return j;
 	}
 
@@ -49,11 +62,13 @@ public class FractalExplorer extends JFrame{
 
 		// Add the Mandelbrot listener 
 		m.addMouseListener(new MClicker(m,uspT));
+		m.addMouseMotionListener(new MClicker(m,uspT));
 
 		// Create and add the editing panel
 		JPanel controls = new ControlPanel(m);
 		this.add(controls,BorderLayout.SOUTH);
-
+		
+		m.setJulia(new FractalExplorer().createJulia());
 
 		this.pack();
 		this.setVisible(true);
@@ -76,10 +91,18 @@ public class FractalExplorer extends JFrame{
 			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
 			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
 			m.getJulia(c).setFixedComplex(c);
-			//m.getJulia(c);
+			m.displayJulia();
 		}
 
 
+		public void mouseMoved(MouseEvent e){
+			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
+			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
+			m.getJulia(c).setFixedComplex(c);
+			m.displayJulia();
+		}
+		
+		
 	}
 
 }

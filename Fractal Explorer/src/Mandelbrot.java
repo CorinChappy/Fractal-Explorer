@@ -12,7 +12,7 @@ public class Mandelbrot extends Fractal{
 
 	// Other constructors
 	public Mandelbrot(double minR, double maxR, double minI, double maxI){
-		super(minR, maxR, minI, maxI, DEFAULT_ITERATIONS);
+		super(minR, maxR, minI, maxI);
 	}
 
 	public Mandelbrot(int iter){
@@ -21,7 +21,7 @@ public class Mandelbrot extends Fractal{
 
 	// Default constructor
 	public Mandelbrot(){
-		super(DEFAULT_ITERATIONS);
+		super();
 	}
 
 	protected void paintFractal(Graphics g){
@@ -83,6 +83,9 @@ public class Mandelbrot extends Fractal{
 	}
 	public void setJulia(Julia j){
 		this.j = j;
+	}
+	public void displayJulia(){
+		getJulia().display();
 	}
 
 }

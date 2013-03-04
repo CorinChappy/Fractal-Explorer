@@ -15,6 +15,10 @@ public class Julia extends Fractal{
 		this.c = c;
 	}
 	
+	protected Julia(){
+		this(new ComplexNumber(0,0));
+	}
+	
 	
 	protected void paintFractal(Graphics g){
 
@@ -44,7 +48,18 @@ public class Julia extends Fractal{
 		}
 	}
 	
+	public void display(){
+		this.repaint();
+		if(!this.getTopLevelAncestor().isVisible()){
+			this.getTopLevelAncestor().setVisible(true);
+		}
+	}
 	
+	public void hide(){
+		if(this.getTopLevelAncestor().isVisible()){
+			this.getTopLevelAncestor().setVisible(false);
+		}
+	}
 	
 	
 	
@@ -54,8 +69,6 @@ public class Julia extends Fractal{
 	}
 	public void setFixedComplex(ComplexNumber c){
 		this.c = c;
-		this.repaint();
-		this.getTopLevelAncestor().setVisible(true);
 	}
 	
 	
