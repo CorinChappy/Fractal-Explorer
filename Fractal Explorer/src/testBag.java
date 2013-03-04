@@ -195,12 +195,20 @@ public class testBag extends JPanel {
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
-		JButton redraw = new JButton("Readraw set");
+		JButton resetSet = new JButton("Reset");
+		GridBagConstraints gbc_resetSet = new GridBagConstraints();
+		gbc_resetSet.fill = GridBagConstraints.HORIZONTAL;
+		gbc_resetSet.insets = new Insets(0, 0, 5, 5);
+		gbc_resetSet.gridx = 1;
+		gbc_resetSet.gridy = 8;
+		add(resetSet, gbc_resetSet);
+		
+		JButton redraw = new JButton("Generate set");
 		GridBagConstraints gbc_redraw = new GridBagConstraints();
-		gbc_redraw.fill = GridBagConstraints.HORIZONTAL;
-		gbc_redraw.gridwidth = 3;
+		gbc_redraw.anchor = GridBagConstraints.WEST;
+		gbc_redraw.gridwidth = 2;
 		gbc_redraw.insets = new Insets(0, 0, 5, 5);
-		gbc_redraw.gridx = 1;
+		gbc_redraw.gridx = 3;
 		gbc_redraw.gridy = 8;
 		add(redraw, gbc_redraw);
 		

@@ -213,12 +213,20 @@ class ControlPanel extends JPanel{
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
-		JButton redraw = new JButton("Readraw set");
+		JButton resetSet = new JButton("Reset");
+		GridBagConstraints gbc_resetSet = new GridBagConstraints();
+		gbc_resetSet.fill = GridBagConstraints.HORIZONTAL;
+		gbc_resetSet.insets = new Insets(0, 0, 5, 5);
+		gbc_resetSet.gridx = 1;
+		gbc_resetSet.gridy = 8;
+		add(resetSet, gbc_resetSet);
+		
+		JButton redraw = new JButton("Generate set");
 		GridBagConstraints gbc_redraw = new GridBagConstraints();
-		gbc_redraw.fill = GridBagConstraints.HORIZONTAL;
-		gbc_redraw.gridwidth = 3;
+		gbc_redraw.anchor = GridBagConstraints.WEST;
+		gbc_redraw.gridwidth = 2;
 		gbc_redraw.insets = new Insets(0, 0, 5, 5);
-		gbc_redraw.gridx = 1;
+		gbc_redraw.gridx = 3;
 		gbc_redraw.gridy = 8;
 		add(redraw, gbc_redraw);
 		
@@ -271,6 +279,17 @@ class ControlPanel extends JPanel{
 
 				// Repaint the set
 				p.repaint();
+			}
+		});
+		
+		// Reset to default values
+		resetSet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				p.setMaxIterations(100);
+				p.setRealRange(-2.0,2.0);
+				p.setImaginaryRange(-1.6,1.6);
+				p.repaint();
+				updateValues();
 			}
 		});
 		

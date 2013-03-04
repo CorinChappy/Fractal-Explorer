@@ -63,16 +63,20 @@ public class FractalExplorer extends JFrame{
 
 		// Create and add the user selected point panel
 		JPanel uspC = new JPanel(new GridLayout(1,1));
-		JTextArea uspT = new JTextArea("Select a point to see it's complex number");
+		JTextArea uspT = new JTextArea("Select a point to see its complex number");
 		uspC.add(uspT);
 		this.add(uspC,BorderLayout.NORTH);
 
-		// Add the Mandelbrot listener 
-		m.addMouseListener(new MClicker(m,uspT));
-		m.addMouseMotionListener(new MClicker(m,uspT));
+		// Add the Mandelbrot & zoomListeners listener
+		MandelClicker l1 = new MandelClicker(m,uspT);
+		m.addMouseListener(l1);
+		m.addMouseMotionListener(l1);
+		ZoomListener l2 = new ZoomListener(m);
+		m.addMouseListener(l2);
+		m.addMouseMotionListener(l2);
 
 		// Create and add the editing panel
-		JPanel controls = new ControlPanel(m);
+		ControlPanel controls = new ControlPanel(m);
 		this.add(controls,BorderLayout.SOUTH);
 		
 		m.setJulia(new FractalExplorer().createJulia());
@@ -80,6 +84,7 @@ public class FractalExplorer extends JFrame{
 		this.pack();
 		this.setVisible(true);
 		F = m;
+		this.control = controls;
 		return m;
 	}
 
@@ -87,14 +92,12 @@ public class FractalExplorer extends JFrame{
 
 
 	// Mouse listener for showing the Julia set and complex number (not implemented)
-	private class MClicker extends MouseAdapter{
+	private class MandelClicker extends MouseAdapter{
 		private Mandelbrot m;
 		JTextComponent t;
 		
-		// Start drag point
-		private Point startDrag;
 
-		public MClicker(Mandelbrot m, JTextComponent t){
+		public MandelClicker(Mandelbrot m, JTextComponent t){
 			this.m = m;
 			this.t = t;
 		}
@@ -114,6 +117,18 @@ public class FractalExplorer extends JFrame{
 				mouseClicked(e);
 			}
 		}
+	}
+	
+	private class ZoomListener extends MouseAdapter{
+		
+		Fractal f;
+		
+		// Start drag point
+		private Point startDrag;
+
+		public ZoomListener(Fractal f){
+			this.f = f;
+		}
 		
 		// Sets the start of the drag
 		public void mousePressed(MouseEvent e){
@@ -122,12 +137,14 @@ public class FractalExplorer extends JFrame{
 		
 		public void mouseReleased(MouseEvent e){
 			Point endDrag = e.getPoint();
-			ComplexNumber c1 = m.getComplex(startDrag);
-			ComplexNumber c2 = m.getComplex(endDrag);
-			m.setRealRange(Math.max(c1.getReal(), c2.getReal()), Math.min(c1.getReal(), c2.getReal()));
-			m.setImaginaryRange(Math.max(c1.getImaginary(), c2.getImaginary()), Math.min(c1.getImaginary(), c2.getImaginary()));
-			m.repaint();
-			control.updateValues();
+			if(startDrag.distance(endDrag) > 20){
+				ComplexNumber c1 = f.getComplex(startDrag);
+				ComplexNumber c2 = f.getComplex(endDrag);
+				f.setRealRange(Math.max(c1.getReal(), c2.getReal()), Math.min(c1.getReal(), c2.getReal()));
+				f.setImaginaryRange(Math.max(c1.getImaginary(), c2.getImaginary()), Math.min(c1.getImaginary(), c2.getImaginary()));
+				f.repaint();
+				control.updateValues();
+			}
 		}
 		
 		public void mouseDragged(MouseEvent e){
