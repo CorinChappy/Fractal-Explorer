@@ -8,6 +8,8 @@ import javax.swing.text.*;
 
 @SuppressWarnings("serial")
 public class FractalExplorer extends JFrame{
+	
+	private boolean openJulia = false;
 
 	public static void main(String[] args) {
 		new FractalExplorer().createMandelbrot();
