@@ -90,16 +90,17 @@ public class FractalExplorer extends JFrame{
 		public void mouseClicked(MouseEvent e){
 			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
 			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
-			m.getJulia(c).setFixedComplex(c);
-			m.displayJulia();
+			if(m.getJuliaSelection() != 0){
+				m.getJulia(c).setFixedComplex(c);
+				m.displayJulia();
+			}
 		}
 
 
 		public void mouseMoved(MouseEvent e){
-			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
-			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
-			m.getJulia(c).setFixedComplex(c);
-			m.displayJulia();
+			if(m.getJuliaSelection() == 2){
+				mouseClicked(e);
+			}
 		}
 		
 		

@@ -4,7 +4,11 @@ import java.awt.Graphics;
 @SuppressWarnings("serial")
 public class Mandelbrot extends Fractal{
 
+	// Stores the julia set related to this set
 	private Julia j;
+	
+	// Stores how to display the Julia - 0 = none, 1 = static, 2 dynamic
+	int juliaDisplay = 1;
 
 	public Mandelbrot(double minR, double maxR, double minI, double maxI, int iter){
 		super(minR, maxR, minI, maxI, iter);
@@ -69,6 +73,16 @@ public class Mandelbrot extends Fractal{
 	}
 
 
+	// Changes the way a julia is displayed
+	public void changeJuliaSelection(int w){
+		if(w < 0 || w > 2){throw new IllegalArgumentException();}
+		juliaDisplay = w;
+	}
+	
+	public int getJuliaSelection(){
+		return juliaDisplay;
+	}
+	
 
 	// Getter and setter for this Mandelbrot's Julia set
 	public Julia getJulia(){

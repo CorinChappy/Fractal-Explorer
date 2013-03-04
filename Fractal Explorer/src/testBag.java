@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 
 @SuppressWarnings("serial")
@@ -17,22 +19,23 @@ public class testBag extends JPanel {
 	private JTextField minI;
 	private JTextField minR;
 	private JTextField maxR;
+	private final ButtonGroup juliaSelection = new ButtonGroup();
 
 	/**
 	 * Create the panel.
 	 */
 	public testBag() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{74, 93, 37, 99, 34, 51, 136, 37, 0};
+		gridBagLayout.columnWidths = new int[]{74, 93, 37, 99, 34, 51, 52, 50, -23, 0};
 		gridBagLayout.rowHeights = new int[]{27, 0, 28, 15, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblOptions = new JLabel("Options");
 		GridBagConstraints gbc_lblOptions = new GridBagConstraints();
-		gbc_lblOptions.gridwidth = 2;
-		gbc_lblOptions.insets = new Insets(0, 0, 5, 0);
+		gbc_lblOptions.gridwidth = 3;
+		gbc_lblOptions.insets = new Insets(0, 0, 5, 5);
 		gbc_lblOptions.gridx = 5;
 		gbc_lblOptions.gridy = 0;
 		add(lblOptions, gbc_lblOptions);
@@ -60,8 +63,9 @@ public class testBag extends JPanel {
 		JToggleButton showAxis = new JToggleButton("Show axis");
 		showAxis.setSelected(true);
 		GridBagConstraints gbc_showAxis = new GridBagConstraints();
+		gbc_showAxis.gridwidth = 3;
 		gbc_showAxis.insets = new Insets(0, 0, 5, 5);
-		gbc_showAxis.gridx = 6;
+		gbc_showAxis.gridx = 5;
 		gbc_showAxis.gridy = 1;
 		add(showAxis, gbc_showAxis);
 		
@@ -77,6 +81,41 @@ public class testBag extends JPanel {
 		gbc_itDisplay.gridy = 2;
 		add(itDisplay, gbc_itDisplay);
 		itDisplay.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Julia selection");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridheight = 2;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 5;
+		gbc_lblNewLabel_1.gridy = 2;
+		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JRadioButton juliaNone = new JRadioButton("None");
+		juliaSelection.add(juliaNone);
+		GridBagConstraints gbc_juliaNone = new GridBagConstraints();
+		gbc_juliaNone.gridheight = 2;
+		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaNone.gridx = 6;
+		gbc_juliaNone.gridy = 2;
+		add(juliaNone, gbc_juliaNone);
+		
+		JRadioButton juliaStatic = new JRadioButton("Static");
+		juliaSelection.add(juliaStatic);
+		juliaStatic.setSelected(true);
+		GridBagConstraints gbc_juliaStatic = new GridBagConstraints();
+		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
+		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaStatic.gridx = 7;
+		gbc_juliaStatic.gridy = 2;
+		add(juliaStatic, gbc_juliaStatic);
+		
+		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
+		juliaSelection.add(juliaDynamic);
+		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
+		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaDynamic.gridx = 7;
+		gbc_juliaDynamic.gridy = 3;
+		add(juliaDynamic, gbc_juliaDynamic);
 		
 		JLabel lblRanges = new JLabel("Ranges");
 		GridBagConstraints gbc_lblRanges = new GridBagConstraints();
