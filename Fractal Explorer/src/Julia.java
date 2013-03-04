@@ -16,8 +16,7 @@ public class Julia extends Fractal{
 	}
 	
 	
-	protected void paintComponent(Graphics g){
-		super.paintComponent(g);
+	protected void paintFractal(Graphics g){
 
 		// Paint each pixel with the x axis then the y axis
 		for(int Y=0; Y<=this.getHeight(); Y++){
@@ -43,7 +42,6 @@ public class Julia extends Fractal{
 
 			}
 		}
-		if(showAxis){paintAxis(g);}
 	}
 	
 	

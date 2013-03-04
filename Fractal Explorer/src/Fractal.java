@@ -49,6 +49,23 @@ public abstract class Fractal extends JPanel{
 	public Fractal(){
 		this(-2.0,2.0,-1.6,1.6, DEFAULT_ITERATIONS);
 	}
+	
+	// Paintcomponent just calls a couple of abstract methods that need to be overridden
+	protected void paintComponent(Graphics g){
+		super.paintComponent(g);
+		paintFractal(g);
+		if(showAxis){paintAxis(g);}
+	}
+	
+	// Abstract paintFractal, to be overridden
+	protected abstract void paintFractal(Graphics g);
+	
+	// paints the axis on the screen (Maybe move to another frame?)
+	protected void paintAxis(Graphics g){
+		g.setColor(Color.RED);
+		g.drawLine(getPoint(new ComplexNumber(minR,0)). x,getPoint(new ComplexNumber(minR,0)).y, getPoint(new ComplexNumber(maxR,0)). x,getPoint(new ComplexNumber(maxR,0)).y);
+		g.drawLine(getPoint(new ComplexNumber(0,minI)). x,getPoint(new ComplexNumber(0,minI)).y, getPoint(new ComplexNumber(0,maxI)). x,getPoint(new ComplexNumber(0,maxI)).y);
+	}
 
 	// Helper function, takes an x and y coordinate and finds it's complex number associated with it
 	public ComplexNumber getComplex(int x, int y){
@@ -84,12 +101,6 @@ public abstract class Fractal extends JPanel{
 		
 		return new Point((int) x,(int) y);
 		
-	}
-	
-	protected void paintAxis(Graphics g){
-		g.setColor(Color.RED);
-		g.drawLine(getPoint(new ComplexNumber(minR,0)). x,getPoint(new ComplexNumber(minR,0)).y, getPoint(new ComplexNumber(maxR,0)). x,getPoint(new ComplexNumber(maxR,0)).y);
-		g.drawLine(getPoint(new ComplexNumber(0,minI)). x,getPoint(new ComplexNumber(0,minI)).y, getPoint(new ComplexNumber(0,maxI)). x,getPoint(new ComplexNumber(0,maxI)).y);
 	}
 	
 	// Gets the colour the display from the number of iterations
