@@ -130,7 +130,7 @@ public class FractalExplorer extends JFrame{
 			if(startDrag.distance(endDrag) > 20){
 				ComplexNumber c1 = f.getComplex(startDrag);
 				ComplexNumber c2 = f.getComplex(endDrag);
-				f.setRealRange(Math.max(c1.getReal(), c2.getReal()), Math.min(c1.getReal(), c2.getReal()));
+				f.setRealRange(Math.min(c1.getReal(), c2.getReal()), Math.max(c1.getReal(), c2.getReal()));
 				f.setImaginaryRange(Math.max(c1.getImaginary(), c2.getImaginary()), Math.min(c1.getImaginary(), c2.getImaginary()));
 				f.repaint();
 				if(control != null){control.updateValues();}
