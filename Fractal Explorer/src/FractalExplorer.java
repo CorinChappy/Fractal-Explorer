@@ -143,7 +143,7 @@ public class FractalExplorer extends JFrame{
 				f.setRealRange(Math.max(c1.getReal(), c2.getReal()), Math.min(c1.getReal(), c2.getReal()));
 				f.setImaginaryRange(Math.max(c1.getImaginary(), c2.getImaginary()), Math.min(c1.getImaginary(), c2.getImaginary()));
 				f.repaint();
-				control.updateValues();
+				if(control != null){control.updateValues();}
 			}
 		}
 		
