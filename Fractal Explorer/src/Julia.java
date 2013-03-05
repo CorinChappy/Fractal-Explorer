@@ -8,11 +8,11 @@ public class Julia extends Fractal{
 
 	public Julia(ComplexNumber c, int iter){
 		super(iter);
-		this.c = c;
+		this.c = new ComplexNumber(c);
 	}
 	public Julia(ComplexNumber c){
 		super();
-		this.c = c;
+		this.c = new ComplexNumber(c);
 	}
 	
 	protected Julia(){

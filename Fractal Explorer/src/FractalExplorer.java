@@ -35,21 +35,11 @@ public class FractalExplorer extends JFrame{
 	}
 	
 	Julia createJulia(ComplexNumber c){
-		Julia j = new Julia(c);
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.add(j, BorderLayout.CENTER);
-		this.pack();
-		F = j;
-		return j;
+		return this.createJulia(c, Fractal.DEFAULT_ITERATIONS);
 	}
 	
 	Julia createJulia(){
-		Julia j = new Julia();
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.add(j, BorderLayout.CENTER);
-		this.pack();
-		F = j;
-		return j;
+		return this.createJulia(new ComplexNumber(0,0), Fractal.DEFAULT_ITERATIONS);
 	}
 
 	public Mandelbrot createMandelbrot(){	
