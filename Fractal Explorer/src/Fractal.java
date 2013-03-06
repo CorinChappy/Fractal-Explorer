@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.JPanel;
+import javax.xml.stream.events.EndElement;
 
 
 @SuppressWarnings("serial")
@@ -183,6 +184,10 @@ public abstract class Fractal extends JPanel{
 	class FractalOverlay extends JPanel{
 		
 		private boolean showAxis = true;
+		private boolean dragging = false;
+		
+		private Point dragStart;
+		private Point dragEnd;
 		
 		private FractalOverlay(){
 			this.setOpaque(false);
@@ -194,12 +199,39 @@ public abstract class Fractal extends JPanel{
 			this.repaint();
 		}
 		
+		// Visual dragging display
+		public void startDrag(Point p){
+			dragStart = new Point(p);
+			
+		}
+		public void updateDrag(Point p){
+			if(dragStart != null){
+				if(dragStart.distance(p) > 20){
+					dragEnd = new Point(p);
+					dragging = true;
+					this.repaint();
+				}
+			}
+		}
+		public void clearDrag(){
+			dragging = false;
+			dragStart = null;
+			dragEnd = null;
+		}
+		
 		protected void paintComponent(Graphics g){
 			super.paintComponent(g);
 			if(showAxis){
 				g.setColor(Color.RED);
 				g.drawLine(getPoint(new ComplexNumber(minR,0)). x,getPoint(new ComplexNumber(minR,0)).y, getPoint(new ComplexNumber(maxR,0)). x,getPoint(new ComplexNumber(maxR,0)).y);
 				g.drawLine(getPoint(new ComplexNumber(0,minI)). x,getPoint(new ComplexNumber(0,minI)).y, getPoint(new ComplexNumber(0,maxI)). x,getPoint(new ComplexNumber(0,maxI)).y);
+			}
+			if(dragging){
+				// TODO: Make box work on backwards drags
+				g.setColor(Color.WHITE);
+				int width = dragEnd.x - dragStart.x;
+				int height = dragEnd.y - dragStart.y;
+				g.drawRect(dragStart.x, dragStart.y, width, height);
 			}
 		}
 	}

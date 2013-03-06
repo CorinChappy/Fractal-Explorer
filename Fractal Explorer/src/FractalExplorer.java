@@ -123,6 +123,7 @@ public class FractalExplorer extends JFrame{
 		// Sets the start of the drag
 		public void mousePressed(MouseEvent e){
 			startDrag = e.getPoint();
+			f.overlay.startDrag(startDrag);
 		}
 		
 		public void mouseReleased(MouseEvent e){
@@ -135,10 +136,12 @@ public class FractalExplorer extends JFrame{
 				f.repaint();
 				if(control != null){control.updateValues();}
 			}
+			// Clear the dragging overlay
+			f.overlay.clearDrag();
 		}
 		
 		public void mouseDragged(MouseEvent e){
-			
+			f.overlay.updateDrag(e.getPoint());
 		}
 		
 		
