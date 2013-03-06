@@ -181,7 +181,7 @@ public abstract class Fractal extends JPanel{
 	
 	
 	// The Overlay class, a helper class that displays the axis among others
-	class FractalOverlay extends JPanel{
+	final class FractalOverlay extends JPanel{
 		
 		private boolean showAxis = true;
 		private boolean dragging = false;
