@@ -227,7 +227,6 @@ public abstract class Fractal extends JPanel{
 				g.drawLine(getPoint(new ComplexNumber(0,minI)). x,getPoint(new ComplexNumber(0,minI)).y, getPoint(new ComplexNumber(0,maxI)). x,getPoint(new ComplexNumber(0,maxI)).y);
 			}
 			if(dragging){
-				// TODO: Make box work on backwards drags
 				g.setColor(Color.WHITE);
 				int x = Math.min(dragStart.x, dragEnd.x);
 				int y = Math.min(dragStart.y, dragEnd.y);
