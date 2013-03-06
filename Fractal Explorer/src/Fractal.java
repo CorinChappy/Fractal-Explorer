@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 public abstract class Fractal extends JPanel{
 	
 	// The overlay to display the axis and the zooming
-	final FractalOverlay overlay;
+	public final FractalOverlay overlay;
 	
 	// ints to represent the ranges
 	protected double minR;
@@ -19,7 +19,6 @@ public abstract class Fractal extends JPanel{
 	protected double maxI;
 
 	// booleans to represent enabled functions
-	protected boolean showAxis = true;
 
 	// Iteration variables
 	public final static int DEFAULT_ITERATIONS = 100;
@@ -37,7 +36,7 @@ public abstract class Fractal extends JPanel{
 
 		this.setBackground(Color.WHITE);
 		
-		// Add the overlay to this thingie
+		// Add the overlay to the fractal
 		this.setLayout(new BorderLayout());
 		overlay = new FractalOverlay();
 		this.add(overlay, BorderLayout.CENTER);
@@ -126,14 +125,9 @@ public abstract class Fractal extends JPanel{
 		return new Color(colnum);
 	}
 	
-	
-	
-	
-	
-	// Method to display the axis
+	// Method just calls the display axis on the overlay
 	public void displayAxis(boolean a){
-		showAxis = a;
-		overlay.repaint();
+		overlay.displayAxis(a);
 	}
 	
 	
@@ -186,10 +180,18 @@ public abstract class Fractal extends JPanel{
 	
 	
 	// The Overlay class, a helper class that displays the axis among others
-	private class FractalOverlay extends JPanel{
+	class FractalOverlay extends JPanel{
 		
-		public FractalOverlay(){
+		private boolean showAxis = true;
+		
+		private FractalOverlay(){
 			this.setOpaque(false);
+		}
+		
+		// Method to display the axis
+		public void displayAxis(boolean a){
+			showAxis = a;
+			this.repaint();
 		}
 		
 		protected void paintComponent(Graphics g){

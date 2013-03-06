@@ -58,9 +58,9 @@ public class Mandelbrot extends Fractal{
 
 	// Override displayAxis to also display the Julia axis
 	public void displayAxis(boolean a){
-		super.displayAxis(a);
+		overlay.displayAxis(a);
 		if(j != null){
-			j.displayAxis(a);
+			j.overlay.displayAxis(a);
 		}
 	}
 
