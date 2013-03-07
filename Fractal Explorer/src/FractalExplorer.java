@@ -82,7 +82,7 @@ public class FractalExplorer extends JFrame{
 				controller = f.getControlPanel();
 				this.add(controller, BorderLayout.SOUTH);
 			}else{
-				// Create the control panel and add it to the places
+				// Create the control panel and add it to the required places
 				// Create and add ZoomListener listeners
 				ZoomListener l1 = new ZoomListener(f);
 				f.addMouseListener(l1);
