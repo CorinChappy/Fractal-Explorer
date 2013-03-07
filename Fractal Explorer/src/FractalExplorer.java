@@ -128,11 +128,11 @@ public class FractalExplorer extends JFrame{
 		
 		public void mouseReleased(MouseEvent e){
 			Point endDrag = e.getPoint();
-			if(startDrag.distance(endDrag) > 20){
+			if(startDrag != null && startDrag.distance(endDrag) > 20){
 				ComplexNumber c1 = f.getComplex(startDrag);
 				ComplexNumber c2 = f.getComplex(endDrag);
 				f.setRealRange(Math.min(c1.getReal(), c2.getReal()), Math.max(c1.getReal(), c2.getReal()));
-				f.setImaginaryRange(Math.max(c1.getImaginary(), c2.getImaginary()), Math.min(c1.getImaginary(), c2.getImaginary()));
+				f.setImaginaryRange(Math.min(c1.getImaginary(), c2.getImaginary()), Math.max(c1.getImaginary(), c2.getImaginary()));
 				f.repaint();
 				if(control != null){control.updateValues();}
 			}
@@ -144,6 +144,10 @@ public class FractalExplorer extends JFrame{
 			f.overlay.updateDrag(e.getPoint());
 		}
 		
+		public void mouseExited(MouseEvent e){
+			f.overlay.clearDrag();
+			startDrag = null;
+		}
 		
 	}
 

@@ -217,10 +217,10 @@ public abstract class Fractal extends JPanel{
 			dragging = false;
 			dragStart = null;
 			dragEnd = null;
+			this.repaint();
 		}
 		
 		protected void paintComponent(Graphics g){
-			super.paintComponent(g);
 			if(showAxis){
 				g.setColor(Color.RED);
 				g.drawLine(getPoint(new ComplexNumber(minR,0)). x,getPoint(new ComplexNumber(minR,0)).y, getPoint(new ComplexNumber(maxR,0)). x,getPoint(new ComplexNumber(maxR,0)).y);
