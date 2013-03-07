@@ -50,6 +50,7 @@ public class FractalExplorer extends JFrame{
 			ControlPanel controler = new ControlPanel(f);
 			this.add(controler,BorderLayout.SOUTH);
 			this.controler = controler;
+			f.setControlPanel(controler);
 			
 			this.setPreferredSize(new Dimension(585, 655));
 			this.setMinimumSize(new Dimension(535, 575));
@@ -65,6 +66,18 @@ public class FractalExplorer extends JFrame{
 	public Fractal createFractal(Fractal f, boolean controls){
 		return this.createFractal(f, true, controls);
 	}
+	
+	// Method to change the currently displayed fractal
+	public Fractal changeFractal(Fractal f, boolean controls){
+		return null;
+	}
+	
+	public Fractal changeFractal(Fractal f){
+		return this.changeFractal(f, (controler != null));
+	}
+	
+	
+	
 	
 	public Julia createJulia(ComplexNumber c, int iter){
 		Julia j = new Julia(c,iter);

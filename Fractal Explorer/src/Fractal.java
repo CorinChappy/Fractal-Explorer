@@ -13,6 +13,9 @@ public abstract class Fractal extends JPanel{
 	// The overlay to display the axis and the zooming
 	public final FractalOverlay overlay;
 	
+	// The control panel of this Fractal
+	ControlPanel controler;
+	
 	// ints to represent the ranges
 	protected double minR;
 	protected double maxR;
@@ -124,6 +127,15 @@ public abstract class Fractal extends JPanel{
 		int colnum = div*it;
 
 		return new Color(colnum);
+	}
+	
+	// Getters and setters for the ControlPanel
+	public ControlPanel getControlPanel(){
+		return controler;
+	}
+	
+	public void setControlPanel(ControlPanel controler){
+		this.controler = controler;
 	}
 	
 	// Method just calls the display axis on the overlay
