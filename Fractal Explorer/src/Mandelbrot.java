@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 @SuppressWarnings("serial")
@@ -12,20 +14,32 @@ public class Mandelbrot extends Fractal{
 
 	public Mandelbrot(double minR, double maxR, double minI, double maxI, int iter){
 		super(minR, maxR, minI, maxI, iter);
+		MandelClicker l1 = new MandelClicker();
+		this.addMouseListener(l1);
+		this.addMouseMotionListener(l1);
 	}
 
 	// Other constructors
 	public Mandelbrot(double minR, double maxR, double minI, double maxI){
 		super(minR, maxR, minI, maxI);
+		MandelClicker l1 = new MandelClicker();
+		this.addMouseListener(l1);
+		this.addMouseMotionListener(l1);
 	}
 
 	public Mandelbrot(int iter){
 		super(iter);
+		MandelClicker l1 = new MandelClicker();
+		this.addMouseListener(l1);
+		this.addMouseMotionListener(l1);
 	}
 
 	// Default constructor
 	public Mandelbrot(){
 		super();
+		MandelClicker l1 = new MandelClicker();
+		this.addMouseListener(l1);
+		this.addMouseMotionListener(l1);
 	}
 
 	protected void paintFractal(Graphics g){
@@ -100,6 +114,26 @@ public class Mandelbrot extends Fractal{
 	}
 	public void displayJulia(){
 		getJulia().display();
+	}
+	
+	
+	// Mouse listener for showing the Julia set and complex number
+	private class MandelClicker extends MouseAdapter{
+
+		public void mouseClicked(MouseEvent e){
+			ComplexNumber c = getComplex(e.getPoint().x, e.getPoint().y);
+			if(getJuliaSelection() != 0){
+				getJulia(c).setFixedComplex(c);
+				displayJulia();
+			}
+		}
+
+
+		public void mouseMoved(MouseEvent e){
+			if(getJuliaSelection() == 2){
+				mouseClicked(e);
+			}
+		}
 	}
 
 }

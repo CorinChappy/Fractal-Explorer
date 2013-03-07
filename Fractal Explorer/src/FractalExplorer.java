@@ -11,7 +11,7 @@ public class FractalExplorer extends JFrame{
 	
 	// Stores the fractal (and control panel, if it exists)
 	Fractal F;
-	ControlPanel control;
+	ControlPanel controler;
 
 	public static void main(String[] args) {
 		new FractalExplorer().createMandelbrot();
@@ -21,16 +21,55 @@ public class FractalExplorer extends JFrame{
 	public FractalExplorer(){
 		super("Fractal Explorer");
 		this.setPreferredSize(new Dimension(400, 400));
+		this.setMinimumSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 	}
 	
-	Julia createJulia(ComplexNumber c, int iter){
-		Julia j = new Julia(c,iter);
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.add(j, BorderLayout.CENTER);
+	// Method for creating a generic fratal in the Frame, booleans represent whether
+	// to make the panel visible by default and a control panel should be present
+	public Fractal createFractal(Fractal f, boolean visible, boolean controls){
+		this.add(f, BorderLayout.CENTER);
+
+		// Create and attach the control panel
+		if(controls){
+			// Create and add the user selected point panel
+			JPanel uspC = new JPanel(new GridLayout(1,1));
+			JTextArea uspT = new JTextArea("Select a point to see its complex number");
+			uspC.add(uspT);
+			this.add(uspC,BorderLayout.NORTH);
+
+			// Add the ComplexDisplay & ZoomListener listeners
+			ComplexDisplayClicker l1 = new ComplexDisplayClicker(f, uspT);
+			f.addMouseListener(l1);
+			ZoomListener l2 = new ZoomListener(f);
+			f.addMouseListener(l2);
+			f.addMouseMotionListener(l2);
+
+			// Create and add the editing panel
+			ControlPanel controler = new ControlPanel(f);
+			this.add(controler,BorderLayout.SOUTH);
+			this.controler = controler;
+			
+			this.setPreferredSize(new Dimension(585, 655));
+			this.setMinimumSize(new Dimension(535, 575));
+		}
+		
+		
 		this.pack();
-		F = j;
+		this.setVisible(visible);
+		F = f;
+		return f;
+	}
+	
+	public Fractal createFractal(Fractal f, boolean controls){
+		return this.createFractal(f, true, controls);
+	}
+	
+	public Julia createJulia(ComplexNumber c, int iter){
+		Julia j = new Julia(c,iter);
+		createFractal(j, false, false);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		return j;
 	}
 	
@@ -42,70 +81,34 @@ public class FractalExplorer extends JFrame{
 		return this.createJulia(new ComplexNumber(0,0), Fractal.DEFAULT_ITERATIONS);
 	}
 
-	public Mandelbrot createMandelbrot(){	
-		this.setPreferredSize(new Dimension(585, 655));
-		this.setMinimumSize(new Dimension(535, 575));
+	public Mandelbrot createMandelbrot(){
 
-		// Create and add the display panel
 		Mandelbrot m = new Mandelbrot();
-		this.add(m, BorderLayout.CENTER);
-
-
-		// Create and add the user selected point panel
-		JPanel uspC = new JPanel(new GridLayout(1,1));
-		JTextArea uspT = new JTextArea("Select a point to see its complex number");
-		uspC.add(uspT);
-		this.add(uspC,BorderLayout.NORTH);
-
-		// Add the Mandelbrot & zoomListeners listener
-		MandelClicker l1 = new MandelClicker(m,uspT);
-		m.addMouseListener(l1);
-		m.addMouseMotionListener(l1);
-		ZoomListener l2 = new ZoomListener(m);
-		m.addMouseListener(l2);
-		m.addMouseMotionListener(l2);
-
-		// Create and add the editing panel
-		ControlPanel controls = new ControlPanel(m);
-		this.add(controls,BorderLayout.SOUTH);
-		
+		createFractal(m, true);
 		m.setJulia(new FractalExplorer().createJulia());
-
-		this.pack();
-		this.setVisible(true);
-		F = m;
-		this.control = controls;
+		
 		return m;
 	}
 
 
 
 
-	// Mouse listener for showing the Julia set and complex number (not implemented)
-	private class MandelClicker extends MouseAdapter{
-		private Mandelbrot m;
+
+	
+	// Listener for displaying the complex number
+	private class ComplexDisplayClicker extends MouseAdapter{
+		private Fractal f;
 		JTextComponent t;
 		
 
-		public MandelClicker(Mandelbrot m, JTextComponent t){
-			this.m = m;
+		public ComplexDisplayClicker(Fractal f, JTextComponent t){
+			this.f = f;
 			this.t = t;
 		}
-
+		
 		public void mouseClicked(MouseEvent e){
-			ComplexNumber c = m.getComplex(e.getPoint().x, e.getPoint().y);
+			ComplexNumber c = f.getComplex(e.getPoint().x, e.getPoint().y);
 			t.setText("Complex number: "+c.getReal()+" + "+c.getImaginary()+"i");
-			if(m.getJuliaSelection() != 0){
-				m.getJulia(c).setFixedComplex(c);
-				m.displayJulia();
-			}
-		}
-
-
-		public void mouseMoved(MouseEvent e){
-			if(m.getJuliaSelection() == 2){
-				mouseClicked(e);
-			}
 		}
 	}
 	
@@ -134,7 +137,7 @@ public class FractalExplorer extends JFrame{
 				f.setRealRange(Math.min(c1.getReal(), c2.getReal()), Math.max(c1.getReal(), c2.getReal()));
 				f.setImaginaryRange(Math.min(c1.getImaginary(), c2.getImaginary()), Math.max(c1.getImaginary(), c2.getImaginary()));
 				f.repaint();
-				if(control != null){control.updateValues();}
+				if(controler != null){controler.updateValues();}
 			}
 			// Clear the dragging overlay
 			f.overlay.clearDrag();
