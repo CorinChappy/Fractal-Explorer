@@ -293,7 +293,8 @@ class ControlPanel extends JPanel{
 			}
 		});
 		
-		if(p.getClass().equals(new Mandelbrot().getClass())){
+		// Only the Mandelbrot can have a Juila set
+		if(p.getClass().equals(Mandelbrot.class)){
 	
 			// Julia selection type settings
 			class JuliaSelectionListener implements ItemListener{
@@ -315,6 +316,12 @@ class ControlPanel extends JPanel{
 			juliaStatic.addItemListener(new JuliaSelectionListener(1));
 			juliaDynamic.addItemListener(new JuliaSelectionListener(2));
 			
+		}else{
+			// If not a Mandelbrot then remove the julia options
+			this.remove(lblNewLabel_1);
+			this.remove(juliaNone);
+			this.remove(juliaStatic);
+			this.remove(juliaDynamic);
 		}
 
 	}
