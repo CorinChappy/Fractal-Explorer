@@ -15,6 +15,7 @@ public class FractalExplorer extends JFrame{
 
 	public static void main(String[] args) {
 		new FractalExplorer().createMandelbrot();
+		//new FractalExplorer().createFractal(new BurningShip(), true);
 	}
 
 
@@ -47,6 +48,7 @@ public class FractalExplorer extends JFrame{
 			ZoomListener l1 = new ZoomListener(f);
 			f.addMouseListener(l1);
 			f.addMouseMotionListener(l1);
+			f.addMouseWheelListener(l1);
 
 			// Create and add the editing panel
 			ControlPanel controller = new ControlPanel(f);
@@ -200,6 +202,23 @@ public class FractalExplorer extends JFrame{
 			startDrag = null;
 		}
 
+		public void mouseWheelMoved(MouseWheelEvent e){
+			Point zoomPoint = e.getPoint();
+			double zoomFactor = Math.pow(1.5, e.getWheelRotation());
+			
+			
+			f.setCentre(zoomPoint);
+			// Zoom in
+			f.setRealRange(f.getMinReal()*zoomFactor, f.getMaxReal()*zoomFactor);
+			f.setImaginaryRange(f.getMinImaginary()*zoomFactor, f.getMaxImaginary()*zoomFactor);
+			if(e.getWheelRotation() < 0){
+				// Set the new centre
+				
+			}
+			// Repaint
+			f.repaint();
+			if(controller != null){controller.updateValues();}
+		}
 	}
 
 }

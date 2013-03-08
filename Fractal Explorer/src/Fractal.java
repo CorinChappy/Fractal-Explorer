@@ -118,14 +118,13 @@ public abstract class Fractal extends JPanel{
 		float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
 
 		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
-		 */
+		*/
 
 
 		int div = 1677216/iterations;
 		//int div = 255/iterations;
 
 		int colnum = div*it;
-
 		return new Color(colnum);
 	}
 	
@@ -189,6 +188,19 @@ public abstract class Fractal extends JPanel{
 	public void setImaginaryRange(double low, double high){
 		setMinImaginary(low);
 		setMaxImaginary(high);
+	}
+	
+	// Setter for the centre (Basically moves the ranges around)
+	public void setCentre(Point p){
+		double realOffset =  (maxR - minR)/2;
+		double imaginaryOffset = (maxI - minI)/2;
+		
+		// Get the complex of the new centre
+		ComplexNumber newCentre = getComplex(p);
+		
+		// Set the ranges
+		setRealRange(newCentre.getReal() - realOffset, newCentre.getReal() + realOffset);
+		setImaginaryRange(newCentre.getImaginary() - imaginaryOffset, newCentre.getImaginary() + imaginaryOffset);
 	}
 	
 	
