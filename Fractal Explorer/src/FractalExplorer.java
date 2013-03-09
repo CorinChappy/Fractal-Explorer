@@ -207,18 +207,17 @@ public class FractalExplorer extends JFrame{
 		}
 
 		public void mouseWheelMoved(MouseWheelEvent e){
-			Point zoomPoint = e.getPoint();
+			ComplexNumber zoomPoint = f.getComplex(e.getPoint());
 			double zoomFactor = Math.pow(1.5, e.getWheelRotation());
 			
+			// Calculate distances and ratios
 			
-			f.setCentre(zoomPoint);
+			
 			// Zoom in
 			f.setRealRange(f.getMinReal()*zoomFactor, f.getMaxReal()*zoomFactor);
 			f.setImaginaryRange(f.getMinImaginary()*zoomFactor, f.getMaxImaginary()*zoomFactor);
-			if(e.getWheelRotation() < 0){
-				// Set the new centre
-				
-			}
+			// Set the new centre
+			f.setCentre(zoomPoint);
 			// Repaint
 			f.repaint();
 			if(controller != null){controller.updateValues();}

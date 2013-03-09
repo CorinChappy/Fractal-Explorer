@@ -191,12 +191,12 @@ public abstract class Fractal extends JPanel{
 	}
 	
 	// Setter for the centre (Basically moves the ranges around)
-	public void setCentre(Point p){
+	public void setCentre(ComplexNumber newCentre){
 		double realOffset =  (maxR - minR)/2;
 		double imaginaryOffset = (maxI - minI)/2;
 		
 		// Get the complex of the new centre
-		ComplexNumber newCentre = getComplex(p);
+		//ComplexNumber newCentre = getComplex(p);
 		
 		// Set the ranges
 		setRealRange(newCentre.getReal() - realOffset, newCentre.getReal() + realOffset);
