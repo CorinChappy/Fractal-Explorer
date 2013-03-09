@@ -14,8 +14,12 @@ public class FractalExplorer extends JFrame{
 	ControlPanel controller;
 
 	public static void main(String[] args) {
-		new FractalExplorer().createMandelbrot();
-		//new FractalExplorer().createFractal(new BurningShip(), true);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new FractalExplorer().createMandelbrot();
+				//new FractalExplorer().createFractal(new BurningShip(), true);
+			}
+		});
 	}
 
 
