@@ -16,11 +16,8 @@ public abstract class Fractal extends JPanel{
 	// The control panel of this Fractal
 	ControlPanel controler;
 	
-	// ints to represent the ranges
-	protected double minR;
-	protected double maxR;
-	protected double minI;
-	protected double maxI;
+	// doubles to represent the ranges
+	protected double minR, maxR, minI, maxI;
 
 	// booleans to represent enabled functions
 
