@@ -240,6 +240,7 @@ class NameInUseException extends Exception{
 }
 
 // Thrown if the Fractal type is just Fractal, and not a subclass
+@SuppressWarnings("serial")
 class FractalTypeException extends RuntimeException{
 	public FractalTypeException(){
 		super("Type cannot be 'Fractal'");

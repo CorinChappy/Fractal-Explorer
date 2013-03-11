@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 
 
+@SuppressWarnings("serial")
 public class BurningShip extends Fractal {
 
 	public BurningShip(double minR, double maxR, double minI, double maxI, int iter) {
