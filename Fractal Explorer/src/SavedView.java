@@ -199,6 +199,10 @@ public class SavedView {
 	}
 	
 	
+	// Delete a save
+	public static void delete(String name){
+		saves.remove(name);
+	}
 	
 	
 }

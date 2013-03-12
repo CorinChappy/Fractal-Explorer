@@ -28,20 +28,24 @@ public class FractalExplorer extends JFrame{
 		this.setPreferredSize(new Dimension(400, 400));
 		this.setMinimumSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new BorderLayout());
+		//this.setLayout(new BorderLayout());
 	}
 
 	// Method for creating a generic fractal in the Frame, booleans represent whether
 	// to make the panel visible by default and a control panel should be present
 	public Fractal createFractal(Fractal f, boolean visible, boolean controls){
-		this.add(f, BorderLayout.CENTER);
+		JPanel content = new JPanel();
+		content.setLayout(new BorderLayout());
+
+		content.add(f, BorderLayout.CENTER);
 
 
 		// Create and add the user selected point panel
 		JPanel uspC = new JPanel(new GridLayout(1,1));
 		JTextArea uspT = new JTextArea("Select a point to see its complex number");
+		uspT.setEditable(false);
 		uspC.add(uspT);
-		this.add(uspC,BorderLayout.NORTH);
+		content.add(uspC,BorderLayout.NORTH);
 
 		// Add the ComplexDisplay
 		f.addMouseListener(new ComplexDisplayClicker(f, uspT));
@@ -56,7 +60,7 @@ public class FractalExplorer extends JFrame{
 
 			// Create and add the editing panel
 			ControlPanel controller = new ControlPanel(f);
-			this.add(controller,BorderLayout.SOUTH);
+			content.add(controller,BorderLayout.SOUTH);
 			this.controller = controller;
 			f.setControlPanel(controller);
 
@@ -65,6 +69,8 @@ public class FractalExplorer extends JFrame{
 		}
 
 
+		this.setJMenuBar(ControlPanel.createMenuBar());
+		this.setContentPane(content);
 		this.pack();
 		this.setVisible(visible);
 		F = f;
