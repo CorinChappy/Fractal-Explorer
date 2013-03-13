@@ -231,10 +231,46 @@ public class FractalExplorer extends JFrame{
 			
 			
 		});
+		
+		// Export menu button
+		JMenu exportMenu = new JMenu("Export saved fractals");
+		exportMenu.setMnemonic(KeyEvent.VK_E);
+		JMenuItem exportBox = new JMenuItem("                                                 ");
+		exportBox.setSize(50,10);
+		exportBox.setMnemonic(KeyEvent.VK_N);
+		exportBox.setEnabled(false);
+		exportBox.setLayout(new BorderLayout());
+		JPanel exportBoxPanel = new JPanel();
+		exportBoxPanel.setLayout(new BorderLayout());
+		exportBox.add(exportBoxPanel, BorderLayout.CENTER);
+		exportBoxPanel.add(new JLabel("File name: "), BorderLayout.WEST);
+		final JTextField tExportNameBox = new JTextField(100);
+		exportBoxPanel.add(tExportNameBox, BorderLayout.CENTER);
+		exportMenu.add(exportBox);
 
+		JMenuItem exportButton = new JMenuItem("Export");
+		exportMenu.add(exportButton);
+		
+		
+		exportButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!tExportNameBox.getText().equals("")){
+					SavedView.export(tExportNameBox.getText());
+				}else{
+					JOptionPane.showMessageDialog(null,
+							"File name must be supplied",
+							"Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				
+				tExportNameBox.setText("");
+			}
+		});
 
+		
 		menuBar.add(saveMenu);
 		menuBar.add(loadMenu);
+		menuBar.add(exportMenu);
 		return menuBar;
 	}
 

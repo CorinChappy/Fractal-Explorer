@@ -1,4 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.swing.JOptionPane;
 
 
 // Class that stores the info to recover the state of a Fractal (IE save a picture)
@@ -124,6 +129,27 @@ public class SavedView {
 		this.type = type;
 	}
 	
+	// Take the variables and stringify them
+	private String getExportString(){
+		String string = "";
+		string += type+"|";
+		
+		string += minR+"|";
+		string += maxR+"|";
+		string += minI+"|";
+		string += maxI+"|";
+		
+		string += iterations+"|";
+		
+		if(fixedComplex != null){
+			string += "("+fixedComplex.getReal()+","+fixedComplex.getImaginary()+")";
+		}else{
+			string += "(null)";
+		}
+		
+		return string;
+	}
+	
 	
 	/*
 	 * Now we have all of the static stuff!
@@ -210,7 +236,7 @@ public class SavedView {
 		f.setImaginaryRange(save.getMinImaginary(), save.getMaxImaginary());
 		f.setMaxIterations(save.getIterations());
 		
-		f.repaint();
+		f.forcePaint();
 		if(f.getControlPanel() != null){
 			f.getControlPanel().updateValues();
 		}
@@ -237,6 +263,22 @@ public class SavedView {
 	// Delete a save
 	public static void delete(String name){
 		saves.remove(name);
+	}
+	
+	// Export the saves as a file
+	public static void export(String fileName){
+		try{
+			FileWriter fileStream = new FileWriter(fileName+".fef");
+			BufferedWriter writer = new BufferedWriter(fileStream);
+			String[] names = getSavedNames();
+			for(int i = 0; i < names.length; i++){
+				writer.write(names[i]+"|"+loadView(names[i]).getExportString());
+				writer.newLine();
+			}
+			writer.close();
+		}catch (IOException e){
+			JOptionPane.showMessageDialog(null,"Error writing to the file","Error",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	

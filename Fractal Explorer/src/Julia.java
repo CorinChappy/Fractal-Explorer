@@ -47,7 +47,7 @@ public class Julia extends Fractal{
 	}
 	
 	public void display(){
-		this.repaint();
+		this.forcePaint();
 		if(!this.getTopLevelAncestor().isVisible()){
 			this.getTopLevelAncestor().setVisible(true);
 		}
