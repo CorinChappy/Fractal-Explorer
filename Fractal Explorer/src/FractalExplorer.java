@@ -27,8 +27,7 @@ public class FractalExplorer extends JFrame{
 		super("Fractal Explorer");
 		this.setPreferredSize(new Dimension(400, 400));
 		this.setMinimumSize(new Dimension(400, 400));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	// Method for creating a generic fractal in the Frame, booleans represent whether
@@ -146,6 +145,7 @@ public class FractalExplorer extends JFrame{
 		Mandelbrot m = new Mandelbrot();
 		createFractal(m, true);
 		m.setJulia(new FractalExplorer().createJulia());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		return m;
 	}
@@ -201,22 +201,35 @@ public class FractalExplorer extends JFrame{
 		loadMenu.add(new JMenuItem("No fractals saved")).setEnabled(false);
 
 		loadMenu.addMenuListener(new MenuListener(){
-			public void menuSelected(MenuEvent arg0){
+			public void menuSelected(MenuEvent e){
+				LoadListener loadListener = new LoadListener();
 				String[] names = SavedView.getSavedNames();
 				loadMenu.removeAll();
 				if(names.length < 1){
 					loadMenu.add(new JMenuItem("No fractals saved")).setEnabled(false);
 				}
 				for(int i=0;i<names.length;i++){
-					loadMenu.add(new JMenuItem(names[i])).addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							SavedView.loadToFractal(((JMenuItem) e.getSource()).getText(), F);
-						}
-					});
+					loadMenu.add(new JMenuItem(names[i])).addActionListener(loadListener);
 				}
 			}
 			public void menuDeselected(MenuEvent arg0){}
 			public void menuCanceled(MenuEvent arg0){}
+			
+			// Listener for each of the loads
+			class LoadListener implements ActionListener{
+				public void actionPerformed(ActionEvent e){
+					AbstractButton item = ((AbstractButton) e.getSource());
+					// If the window has no control panel then create a new frame to display the fractal
+					if(controller == null){
+						SavedView.loadFramedFractal(item.getText(), false);
+					}else{
+						// Import it into the current fractal
+						SavedView.loadToFractal(item.getText(), F);
+					}
+				}
+			}
+			
+			
 		});
 
 
@@ -317,9 +330,14 @@ public class FractalExplorer extends JFrame{
 			double newRealMax = newRealMin + (f.getMaxReal()-f.getMinReal())*zoomFactor;
 			double newImgMin = zoomPoint.getImaginary() - ((zoomFactor*(f.getMaxImaginary()-f.getMinImaginary()))*ratioY);
 			double newImgMax = newImgMin + (f.getMaxImaginary()-f.getMinImaginary())*zoomFactor;
-
-			f.setRealRange(newRealMin, newRealMax);
-			f.setImaginaryRange(newImgMin, newImgMax);
+			
+			// Limit the zoom
+			if((newRealMin < f.MINIMUM_REAL() || newRealMax > f.MAXIMUM_REAL()) && (newImgMin < f.MINIMUM_IMAGINARY() || newImgMax > f.MAXIMUM_IMAGINARY())){
+				f.setRangesDefault();
+			}else{
+				f.setRealRange(newRealMin, newRealMax);
+				f.setImaginaryRange(newImgMin, newImgMax);
+			}
 			// Repaint
 			f.repaint();
 			if(controller != null){controller.updateValues();}

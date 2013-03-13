@@ -8,10 +8,11 @@ public class SavedView {
 	private String name;
 	private double minR, maxR, minI, maxI;
 	private int iterations;
+	private ComplexNumber fixedComplex;
 	private Class<? extends Fractal> type;
 	
 	// Create a new save
-	private SavedView(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations) throws NameInUseException{
+	private SavedView(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations, ComplexNumber fixedComplex) throws NameInUseException{
 		// Check for nulls, empty names, and finally if the name is already in use
 		if(name == null || name.equals("") || saves.containsKey(name)){throw new NameInUseException(name);}
 		// Check if the passed class is 'Fractal'
@@ -24,15 +25,22 @@ public class SavedView {
 		this.minI = minI;
 		this.maxI = maxI;
 		this.iterations = iterations;
+		
+		this.fixedComplex = fixedComplex;
 
+	}
+	
+	// Create a new save with default iterations
+	private SavedView(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations) throws NameInUseException{
+		this(name, type, minR, maxR, minI, maxI, iterations, null);
 	}
 	// Create a new save with default iterations
 	private SavedView(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI) throws NameInUseException{
-		this(name, type, minR, maxR, minI, maxI, Fractal.DEFAULT_ITERATIONS);
+		this(name, type, minR, maxR, minI, maxI, Fractal.DEFAULT_ITERATIONS, null);
 	}
 	// Create a new save from an old one (copy)
 	private SavedView(SavedView save, String name) throws NameInUseException{
-		this(name, save.type, save.minR, save.maxR, save.minI, save.maxI, save.iterations);
+		this(name, save.type, save.minR, save.maxR, save.minI, save.maxI, save.iterations, save.fixedComplex);
 	}
 	
 	// Getter and setter for the name
@@ -96,6 +104,15 @@ public class SavedView {
 		iterations = i;
 	}
 	
+	// Getters and setters for the fixedComplex
+	public ComplexNumber getFixedComplex(){
+		return fixedComplex;
+	}
+	
+	public void setFixedComplex(ComplexNumber c){
+		fixedComplex = c;
+	}
+	
 	// Getters and setters for the type of Fractal
 	public Class<? extends Fractal> getType(){
 		return type;
@@ -117,7 +134,14 @@ public class SavedView {
 	// The magic map or storage
 	private static HashMap<String, SavedView> saves = new HashMap<String, SavedView>();
 	
+	
 	// Saves when values are passed in
+	public static void save(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations, ComplexNumber fixedComplex) throws NameInUseException{
+		SavedView s = new SavedView(name, type, minR, maxR, minI, maxI, iterations, fixedComplex);
+		// Add this save the HashMap
+		saves.put(name, s);
+	}
+	// Saves when values are passed in (without fixedComplex)
 	public static void save(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations) throws NameInUseException{
 		SavedView s = new SavedView(name, type, minR, maxR, minI, maxI, iterations);
 		// Add this save the HashMap
@@ -132,7 +156,11 @@ public class SavedView {
 	
 	// Save from a fractal
 	public static void save(String name, Fractal f) throws NameInUseException{
-		SavedView s = new SavedView(name, f.getClass(), f.getMinReal(), f.getMaxReal(), f.getMinImaginary(), f.getMaxImaginary(), f.getMaxIterations());
+		ComplexNumber fixed = null;
+		if(f.getClass() == Julia.class){
+			fixed = ((Julia) f).getFixedComplex();
+		}
+		SavedView s = new SavedView(name, f.getClass(), f.getMinReal(), f.getMaxReal(), f.getMinImaginary(), f.getMaxImaginary(), f.getMaxIterations(), fixed);
 		// Add this save the HashMap
 		saves.put(name, s);
 	}
@@ -164,6 +192,9 @@ public class SavedView {
 		f.setRealRange(save.getMinReal(), save.getMaxReal());
 		f.setImaginaryRange(save.getMinImaginary(), save.getMaxImaginary());
 		f.setMaxIterations(save.getIterations());
+		if(f.getClass() == Julia.class){
+			((Julia) f).setFixedComplex(save.getFixedComplex());
+		}
 		
 		return f;
 	}

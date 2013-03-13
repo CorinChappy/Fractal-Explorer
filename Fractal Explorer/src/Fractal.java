@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.JPanel;
-import javax.xml.stream.events.EndElement;
 
 
 @SuppressWarnings("serial")
@@ -18,6 +17,23 @@ public abstract class Fractal extends JPanel{
 	
 	// doubles to represent the ranges
 	protected double minR, maxR, minI, maxI;
+	
+	// Statics to represent defaults for this Fractal, can be changed in subclasses so methods should be used for access
+	public static final double MINIMUM_REAL = -2.0, MAXIMUM_REAL = 2.0, MINIMUM_IMAGINARY = -1.6, MAXIMUM_IMAGINARY = 1.6;
+	
+	// Methods here that allow access outside
+	public double MINIMUM_REAL(){
+		return MINIMUM_REAL;
+	}
+	public double MAXIMUM_REAL(){
+		return MAXIMUM_REAL;
+	}
+	public double MINIMUM_IMAGINARY(){
+		return MINIMUM_IMAGINARY;
+	}
+	public double MAXIMUM_IMAGINARY(){
+		return MAXIMUM_IMAGINARY;
+	}
 
 	// booleans to represent enabled functions
 
@@ -49,12 +65,12 @@ public abstract class Fractal extends JPanel{
 	}
 	
 	public Fractal(int iter){
-		this(-2.0,2.0,-1.6,1.6, iter);
+		this(MINIMUM_REAL,MAXIMUM_REAL,MINIMUM_IMAGINARY,MAXIMUM_IMAGINARY, iter);
 	}
 
 	// Default constructor
 	public Fractal(){
-		this(-2.0,2.0,-1.6,1.6, DEFAULT_ITERATIONS);
+		this(MINIMUM_REAL,MAXIMUM_REAL,MINIMUM_IMAGINARY,MAXIMUM_IMAGINARY, DEFAULT_ITERATIONS);
 	}
 	
 	// paintComponent just calls a couple of abstract methods that need to be overridden
@@ -185,6 +201,12 @@ public abstract class Fractal extends JPanel{
 	public void setImaginaryRange(double low, double high){
 		setMinImaginary(low);
 		setMaxImaginary(high);
+	}
+	
+	// Reset stuff
+	public void setRangesDefault(){
+		setImaginaryRange(MINIMUM_IMAGINARY(), MAXIMUM_IMAGINARY());
+		setRealRange(MINIMUM_REAL(), MAXIMUM_REAL());
 	}
 	
 	// Setter for the centre (Basically moves the ranges around)
