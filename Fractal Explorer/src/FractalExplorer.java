@@ -69,7 +69,7 @@ public class FractalExplorer extends JFrame{
 		}
 
 
-		this.setJMenuBar(ControlPanel.createMenuBar());
+		this.setJMenuBar(this.createMenuBar());
 		this.setContentPane(content);
 		this.pack();
 		this.setVisible(visible);
@@ -152,6 +152,78 @@ public class FractalExplorer extends JFrame{
 
 
 
+	// Maker and listener for the Jmenu
+	private JMenuBar createMenuBar(){
+		// Create the MenuBar
+		JMenuBar menuBar = new JMenuBar();
+
+		// Create the save menu
+		JMenu saveMenu = new JMenu("Save current fractal", true);
+		saveMenu.setSize(50, 10);
+		saveMenu.setMnemonic(KeyEvent.VK_S);
+
+		JMenuItem saveBox = new JMenuItem("                                                 ");
+		saveBox.setSize(50,10);
+		saveBox.setMnemonic(KeyEvent.VK_N);
+		saveBox.setEnabled(false);
+		saveBox.setLayout(new BorderLayout());
+		JPanel saveBoxPanel = new JPanel();
+		saveBoxPanel.setLayout(new BorderLayout());
+		saveBox.add(saveBoxPanel, BorderLayout.CENTER);
+		saveBoxPanel.add(new JLabel("Name: "), BorderLayout.WEST);
+		final JTextField tNameBox = new JTextField(100);
+		saveBoxPanel.add(tNameBox, BorderLayout.CENTER);
+		saveMenu.add(saveBox);
+
+		JMenuItem saveButton = new JMenuItem("Save");
+		saveMenu.add(saveButton);
+
+
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SavedView.save(tNameBox.getText(), F);
+				} catch (NameInUseException er) {
+					JOptionPane.showMessageDialog(null,
+							er.getNamedMessage(),
+							"Error",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				tNameBox.setText("");
+			}
+		});
+
+
+		// Create the load menu
+		final JMenu loadMenu = new JMenu("Load fractal", true);
+		loadMenu.setMnemonic(KeyEvent.VK_L);
+
+		loadMenu.add(new JMenuItem("No fractals saved")).setEnabled(false);
+
+		loadMenu.addMenuListener(new MenuListener(){
+			public void menuSelected(MenuEvent arg0){
+				String[] names = SavedView.getSavedNames();
+				loadMenu.removeAll();
+				if(names.length < 1){
+					loadMenu.add(new JMenuItem("No fractals saved")).setEnabled(false);
+				}
+				for(int i=0;i<names.length;i++){
+					loadMenu.add(new JMenuItem(names[i])).addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							SavedView.loadToFractal(((JMenuItem) e.getSource()).getText(), F);
+						}
+					});
+				}
+			}
+			public void menuDeselected(MenuEvent arg0){}
+			public void menuCanceled(MenuEvent arg0){}
+		});
+
+
+		menuBar.add(saveMenu);
+		menuBar.add(loadMenu);
+		return menuBar;
+	}
 
 
 
@@ -216,7 +288,7 @@ public class FractalExplorer extends JFrame{
 			double zoomFactor = (e.getWheelRotation() < 0)?1/1.5:1.5;
 			/*ComplexNumber zoomPoint = f.getComplex(e.getPoint());
 
-			
+
 			// Calculate distances and ratios
 			Point centre = new Point(f.getWidth()/2,f.getHeight()/2);
 			int offsetX = e.getPoint().x - centre.x;
@@ -229,23 +301,23 @@ public class FractalExplorer extends JFrame{
 			// Zoom in
 			f.setRealRange(f.getMinReal()*zoomFactor, f.getMaxReal()*zoomFactor);
 			f.setImaginaryRange(f.getMinImaginary()*zoomFactor, f.getMaxImaginary()*zoomFactor);
-			
 
-			
-			
+
+
+
 			// Set the new centre
 			f.setCentre(zoomPoint);*/
-			
+
 			double ratioX = e.getPoint().getX()/f.getWidth();
 			double ratioY = e.getPoint().getY()/f.getHeight();
-			
+
 			ComplexNumber zoomPoint = f.getComplex(e.getPoint());
-			
+
 			double newRealMin = zoomPoint.getReal() - ((zoomFactor*(f.getMaxReal()-f.getMinReal()))*ratioX);
 			double newRealMax = newRealMin + (f.getMaxReal()-f.getMinReal())*zoomFactor;
 			double newImgMin = zoomPoint.getImaginary() - ((zoomFactor*(f.getMaxImaginary()-f.getMinImaginary()))*ratioY);
 			double newImgMax = newImgMin + (f.getMaxImaginary()-f.getMinImaginary())*zoomFactor;
-			
+
 			f.setRealRange(newRealMin, newRealMax);
 			f.setImaginaryRange(newImgMin, newImgMax);
 			// Repaint

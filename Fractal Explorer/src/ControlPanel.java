@@ -342,34 +342,4 @@ class ControlPanel extends JPanel{
 
 
 	
-	// Maker and listener for the Jmenu
-	static JMenuBar createMenuBar(){
-		// Create the MenuBar
-		JMenuBar menuBar = new JMenuBar();
-		
-		// Create the save menu
-		JMenu saveMenu = new JMenu("Save current fractal", true);
-		saveMenu.setSize(50, 10);
-		saveMenu.setMnemonic(KeyEvent.VK_S);
-		
-		JMenuItem saveBox = new JMenuItem("                                                 ");
-		saveBox.setSize(50,10);
-		saveBox.setMnemonic(KeyEvent.VK_N);
-		saveBox.setEnabled(false);
-		saveBox.setLayout(new BorderLayout());
-		JPanel saveBoxPanel = new JPanel();
-		saveBoxPanel.setLayout(new BorderLayout());
-		saveBox.add(saveBoxPanel, BorderLayout.CENTER);
-		saveBoxPanel.add(new JLabel("Name: "), BorderLayout.WEST);
-		JTextField tNameBox = new JTextField(100);
-		saveBoxPanel.add(tNameBox, BorderLayout.CENTER);
-		saveMenu.add(saveBox);
-		
-		JMenuItem saveButton = new JMenuItem("Save");
-		saveMenu.add(saveButton);
-		
-		
-		menuBar.add(saveMenu);
-		return menuBar;
-	}
 }

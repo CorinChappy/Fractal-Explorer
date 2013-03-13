@@ -13,7 +13,7 @@ public class SavedView {
 	// Create a new save
 	private SavedView(String name, Class<? extends Fractal> type, double minR, double maxR, double minI, double maxI, int iterations) throws NameInUseException{
 		// Check for nulls, empty names, and finally if the name is already in use
-		if(name == null || name == "" || saves.containsKey(name)){throw new NameInUseException(name);}
+		if(name == null || name.equals("") || saves.containsKey(name)){throw new NameInUseException(name);}
 		// Check if the passed class is 'Fractal'
 		if(type == Fractal.class){throw new FractalTypeException();}
 		// Make the new Save
@@ -41,7 +41,7 @@ public class SavedView {
 	}
 	public void rename(String name) throws NameInUseException{
 		// Check for nulls, empty names, and finally if the name is already in use
-		if(name == null || name == "" || saves.containsKey(name)){throw new NameInUseException(name);}
+		if(name == null || name.equals("") || saves.containsKey(name)){throw new NameInUseException(name);}
 		// Remove the old mapping
 		saves.remove(this.name);
 		// Make the new mapping
@@ -148,7 +148,7 @@ public class SavedView {
 		return saves.get(name);
 	}
 	
-	// Create a new fractal with the selected SaveVeiw Returns null if the save doesn't exist
+	// Create a new fractal with the selected SaveVeiw. Returns null if the save doesn't exist
 	public static Fractal loadFractal(String name){
 		SavedView save = saves.get(name);
 		if(save == null){return null;}
@@ -158,7 +158,7 @@ public class SavedView {
 		// Try to create a new instance of the Fractal
 		try{
 			f = save.type.newInstance();
-		}catch(InstantiationException | IllegalAccessException e){return null;}
+		}catch(InstantiationException | IllegalAccessException e){throw new FractalTypeException();}
 		
 		// Set all of the things
 		f.setRealRange(save.getMinReal(), save.getMaxReal());
@@ -179,6 +179,10 @@ public class SavedView {
 		f.setImaginaryRange(save.getMinImaginary(), save.getMaxImaginary());
 		f.setMaxIterations(save.getIterations());
 		
+		f.repaint();
+		if(f.getControlPanel() != null){
+			f.getControlPanel().updateValues();
+		}
 		return f;
 	}
 	
@@ -214,17 +218,21 @@ class NameInUseException extends Exception{
 	
 	private String usedName;
 	private String message;
+	private String namedMessage;
 	
 	public NameInUseException(String name){
 		usedName = name;
 		
 		if(name == null){
-			message = "The name given was null";
+			message = "The name given was a null pointer";
+			namedMessage = "A name must be given (cannot be a null pointer)";
 			}else{
-		if(name == ""){
+		if(name.equals("")){
 			message = "The name given was the empty string (\"\")";
+			namedMessage = "A name must be given";
 			}else{
 				message = "The name given is already in use";
+				namedMessage = name+" is aready in use";
 			}
 		}
 		
@@ -239,7 +247,9 @@ class NameInUseException extends Exception{
 		return usedName;
 	}
 	
-	
+	public String getNamedMessage(){
+		return namedMessage;
+	}
 	
 }
 
