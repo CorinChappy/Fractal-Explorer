@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 
 
 @SuppressWarnings("serial")
@@ -82,12 +83,39 @@ public class testBag extends JPanel {
 		add(itDisplay, gbc_itDisplay);
 		itDisplay.setColumns(10);
 		
+		JLabel lblNewLabel_2 = new JLabel("Enable Caching");
+		lblNewLabel_2.setToolTipText("Disable only if there are problems displaying the Fractal");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.gridheight = 2;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 5;
+		gbc_lblNewLabel_2.gridy = 2;
+		add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		JCheckBox cacheCheckBox = new JCheckBox("");
+		cacheCheckBox.setToolTipText("Disable only if there are problems displaying the Fractal");
+		cacheCheckBox.setSelected(true);
+		GridBagConstraints gbc_cacheCheckBox = new GridBagConstraints();
+		gbc_cacheCheckBox.gridheight = 2;
+		gbc_cacheCheckBox.insets = new Insets(0, 0, 5, 5);
+		gbc_cacheCheckBox.gridx = 6;
+		gbc_cacheCheckBox.gridy = 2;
+		add(cacheCheckBox, gbc_cacheCheckBox);
+		
+		JLabel lblRanges = new JLabel("Ranges");
+		GridBagConstraints gbc_lblRanges = new GridBagConstraints();
+		gbc_lblRanges.gridwidth = 3;
+		gbc_lblRanges.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRanges.gridx = 1;
+		gbc_lblRanges.gridy = 4;
+		add(lblRanges, gbc_lblRanges);
+		
 		JLabel lblNewLabel_1 = new JLabel("Julia selection");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.gridheight = 2;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 2;
+		gbc_lblNewLabel_1.gridy = 4;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JRadioButton juliaNone = new JRadioButton("None");
@@ -96,7 +124,7 @@ public class testBag extends JPanel {
 		gbc_juliaNone.gridheight = 2;
 		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
 		gbc_juliaNone.gridx = 6;
-		gbc_juliaNone.gridy = 2;
+		gbc_juliaNone.gridy = 4;
 		add(juliaNone, gbc_juliaNone);
 		
 		JRadioButton juliaStatic = new JRadioButton("Static");
@@ -106,24 +134,8 @@ public class testBag extends JPanel {
 		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
 		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
 		gbc_juliaStatic.gridx = 7;
-		gbc_juliaStatic.gridy = 2;
+		gbc_juliaStatic.gridy = 4;
 		add(juliaStatic, gbc_juliaStatic);
-		
-		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
-		juliaSelection.add(juliaDynamic);
-		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
-		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaDynamic.gridx = 7;
-		gbc_juliaDynamic.gridy = 3;
-		add(juliaDynamic, gbc_juliaDynamic);
-		
-		JLabel lblRanges = new JLabel("Ranges");
-		GridBagConstraints gbc_lblRanges = new GridBagConstraints();
-		gbc_lblRanges.gridwidth = 3;
-		gbc_lblRanges.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRanges.gridx = 1;
-		gbc_lblRanges.gridy = 4;
-		add(lblRanges, gbc_lblRanges);
 		
 		JLabel lblReal = new JLabel("Real");
 		GridBagConstraints gbc_lblReal = new GridBagConstraints();
@@ -159,6 +171,14 @@ public class testBag extends JPanel {
 		gbc_maxR.gridy = 5;
 		add(maxR, gbc_maxR);
 		maxR.setColumns(10);
+		
+		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
+		juliaSelection.add(juliaDynamic);
+		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
+		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaDynamic.gridx = 7;
+		gbc_juliaDynamic.gridy = 5;
+		add(juliaDynamic, gbc_juliaDynamic);
 		
 		JLabel lblImaginary = new JLabel("Imaginary");
 		GridBagConstraints gbc_lblImaginary = new GridBagConstraints();

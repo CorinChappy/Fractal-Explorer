@@ -20,7 +20,7 @@ public class Julia extends Fractal{
 	}
 	
 	
-	protected void paintFractal(Graphics g){
+	protected void calculateFractal(Graphics g){
 
 		// Paint each pixel with the x axis then the y axis
 		for(int Y=0; Y<=this.getHeight(); Y++){
@@ -39,10 +39,8 @@ public class Julia extends Fractal{
 					n++;
 				}
 
-
 				// Paint the on the pixel according to the iterations
-				g.setColor(genColor(n,d));
-				g.drawLine(X, Y, X, Y);
+				paintPixel(g, n, X, Y);
 
 			}
 		}

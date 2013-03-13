@@ -35,7 +35,11 @@ public abstract class Fractal extends JPanel{
 		return MAXIMUM_IMAGINARY;
 	}
 
-	// booleans to represent enabled functions
+
+	// Cache functions
+	private FractalCache cache = new FractalCache();
+	private boolean recalculate = true;
+	private boolean useCache = true;
 
 	// Iteration variables
 	public final static int DEFAULT_ITERATIONS = 100;
@@ -52,6 +56,7 @@ public abstract class Fractal extends JPanel{
 		this.iterations = iter;
 
 		this.setBackground(Color.WHITE);
+		
 		
 		// Add the overlay to the fractal
 		this.setLayout(new BorderLayout());
@@ -73,14 +78,59 @@ public abstract class Fractal extends JPanel{
 		this(MINIMUM_REAL,MAXIMUM_REAL,MINIMUM_IMAGINARY,MAXIMUM_IMAGINARY, DEFAULT_ITERATIONS);
 	}
 	
-	// paintComponent just calls a couple of abstract methods that need to be overridden
+	// paintComponent just calls abstract methods and deals with the cache
 	protected void paintComponent(Graphics g){
 		super.paintComponent(g);
-		paintFractal(g);
+		// Just calculate the fractal if the cache is not being used
+		if(!useCache){
+			calculateFractal(g);
+			return;
+		}
+		
+		// Check if the fractal needs to be recalculated
+		if(recalculate || cache.isNull() || cache.width() != this.getWidth() || cache.height() != this.getHeight()){
+			cache.remake(this.getWidth(), this.getHeight());
+			calculateFractal(g);
+			recalculate = false;
+		}else{
+			// Grab the data from the cache
+			for(int X=0; X<this.getWidth(); X++){
+				for(int Y=0; Y<this.getHeight(); Y++){
+					// Paint the pixels from the cache
+					try {
+						paintPixel(g, cache.get(X,Y), X, Y);
+					}catch(CacheFullException e){
+						// Panel has grown, need to recalculate
+						recalculate = true;
+						this.repaint();
+					}
+				}
+			}
+		}
+	}
+	
+	// Force a non-cached repaint
+	void forcePaint(){
+		recalculate = true;
+		this.repaint();
 	}
 	
 	// Abstract paintFractal, to be overridden
-	protected abstract void paintFractal(Graphics g);
+	protected abstract void calculateFractal(Graphics g);
+	
+	// Paints the pixel, called by calculateFractal
+	protected void paintPixel(Graphics g, int iterations, int X, int Y){
+		g.setColor(genColor(iterations));
+		g.drawLine(X, Y, X, Y);
+		if(useCache){
+			try {
+				cache.add(iterations, X, Y);
+			}catch(CacheFullException e){
+				// Cache isn't big enough, so it's unusable. Recalculate
+				recalculate = true;
+			}
+		}
+	}
 
 	// Helper function, takes an x and y coordinate and finds it's complex number associated with it
 	public ComplexNumber getComplex(int x, int y){
@@ -124,6 +174,7 @@ public abstract class Fractal extends JPanel{
 		
 	}
 	
+	protected Color genColor(int it){return this.genColor(it, new ComplexNumber(0,0));}
 	// Gets the colour the display from the number of iterations
 	// TODO: create a better algorithm
 	protected Color genColor(int it, ComplexNumber c){
@@ -155,6 +206,11 @@ public abstract class Fractal extends JPanel{
 		overlay.displayAxis(a);
 	}
 	
+	// Method to enable or disable the cache
+	public void enableCache(boolean a){
+		useCache = a;
+	}
+	
 	
 	// Getters and setters for the maximum iterations
 	public int getMaxIterations(){
@@ -163,6 +219,7 @@ public abstract class Fractal extends JPanel{
 
 	public void setMaxIterations(int i){
 		iterations = i;
+		recalculate = true;
 	}
 	
 	
@@ -182,15 +239,19 @@ public abstract class Fractal extends JPanel{
 	
 	public void setMinReal(double v){
 		minR = v;
+		recalculate = true;
 	}
 	public void setMaxReal(double v){
 		maxR = v;
+		recalculate = true;
 	}
 	public void setMinImaginary(double v){
 		minI = v;
+		recalculate = true;
 	}
 	public void setMaxImaginary(double v){
 		maxI = v;
+		recalculate = true;
 	}
 	
 	// Helpers that set the ranges
