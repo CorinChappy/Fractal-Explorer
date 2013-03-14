@@ -232,7 +232,7 @@ public class FractalExplorer extends JFrame{
 			
 			
 		});
-		
+		/*
 		// Export menu button
 		JMenu exportMenu = new JMenu("Export saved fractals");
 		exportMenu.setMnemonic(KeyEvent.VK_E);
@@ -267,6 +267,20 @@ public class FractalExplorer extends JFrame{
 				tExportNameBox.setText("");
 			}
 		});
+		*/
+		
+		// Make the export button
+		JButton exportButton = new JButton("Export saved fractals");
+		exportButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileFilter(new FileNameExtensionFilter("FEF fractal save files", "fef"));
+			    int returnVal = chooser.showSaveDialog(FractalExplorer.this);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       SavedView.exportSaves(chooser.getSelectedFile().getPath());
+			    }
+			}
+		});
 		
 		// Make the import button
 		JButton importButton = new JButton("Import saved fractals");
@@ -274,7 +288,7 @@ public class FractalExplorer extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				JFileChooser chooser = new JFileChooser();
 			    chooser.setFileFilter(new FileNameExtensionFilter("FEF fractal save files", "fef"));
-			    int returnVal = chooser.showOpenDialog(F);
+			    int returnVal = chooser.showOpenDialog(FractalExplorer.this);
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			       SavedView.importSaves(chooser.getSelectedFile(), true);
 			    }
@@ -285,7 +299,7 @@ public class FractalExplorer extends JFrame{
 		
 		menuBar.add(saveMenu);
 		menuBar.add(loadMenu);
-		menuBar.add(exportMenu);
+		menuBar.add(exportButton);
 		menuBar.add(importButton);
 		return menuBar;
 	}
