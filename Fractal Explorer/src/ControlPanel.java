@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -287,14 +288,30 @@ class ControlPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				// Set the iterations
 				p.setMaxIterations(itSlider.getValue());
+				// Integer to represent the errors in the bound input
+				// 0 means no error, 1 means real error, 2 means imaginary error, 3 means both
+				int boundsError = 0;
 				// Set the bounds
 				try{
 					p.setRealRange(Double.parseDouble(minR.getText()), Double.parseDouble(maxR.getText()));
-				}catch(NumberFormatException e){}
+				}catch(NumberFormatException e){boundsError += 1;}
 				try{
 					p.setImaginaryRange(Double.parseDouble(minI.getText()), Double.parseDouble(maxI.getText()));
-				}catch(NumberFormatException e){}
+				}catch(NumberFormatException e){boundsError += 2;}
 
+				if(boundsError > 0){
+					String str = "Ranges must be numbers: \n";
+					if(boundsError == 1){
+						str += "Real range not valid";
+					}
+					if(boundsError == 2){
+						str += "Imaginary range not valid";
+					}
+					if(boundsError == 3){
+						str += "Real range not valid \nImaginary range not valid";
+					}
+					JOptionPane.showMessageDialog(null, str, "Error", JOptionPane.ERROR_MESSAGE);
+				}
 
 				// Repaint the set
 				p.repaint();
