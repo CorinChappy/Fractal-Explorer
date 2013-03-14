@@ -1,6 +1,11 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
@@ -266,7 +271,7 @@ public class SavedView {
 	}
 	
 	// Export the saves as a file
-	public static void export(String fileName){
+	public static void exportSaves(String fileName){
 		try{
 			FileWriter fileStream = new FileWriter(fileName+".fef");
 			BufferedWriter writer = new BufferedWriter(fileStream);
@@ -278,6 +283,108 @@ public class SavedView {
 			writer.close();
 		}catch (IOException e){
 			JOptionPane.showMessageDialog(null,"Error writing to the file","Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void importSaves(File f, boolean overwrite){
+		try{
+			if(f == null || !f.isFile()){throw new FileNotFoundException();}
+			
+			// Create the buffered reader from a file reader made from the file(!)
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			// Main loop for each line (each line should contain one View to be saved)
+			String currentLine;
+			int lineNum = 0;
+			ArrayList<SavedView> veiws = new ArrayList<SavedView>();
+			while((currentLine = br.readLine()) != null){
+				lineNum++;
+				// Split into name and data
+				String name = currentLine.split("|class ")[0];
+				String data = currentLine.split("|class ")[1];
+				
+				// Split the data into parts
+				String[] parts = data.split("|");
+				if(parts.length < 6 || parts.length > 7){
+					// Line is not correct skip this line
+					System.err.println("Error reading line "+lineNum+": number of components different to expected.");
+					continue;
+				}
+				
+				// Check if the class name is real AND if it EXTENDS Fractal
+				Class<? extends Fractal> type;
+				try{
+					type = Class.forName(parts[0]).asSubclass(Fractal.class);
+					if(type == Fractal.class){throw new ClassCastException();}
+				}catch(ClassNotFoundException e){
+					// Catch if the class doesn't exist
+					System.err.println("Error reading line "+lineNum+": class "+parts[0]+" does not exist");
+					continue;
+				}catch(ClassCastException e){
+					// Catch if class doesn't EXTEND Fractal (cannot be Fractal)
+					System.err.println("Error reading line "+lineNum+": class "+parts[0]+" must be a subclass of Fractal");
+					continue;
+				}
+				
+				// Check the range and iteration values
+				double minR, maxR, minI, maxI;;
+				try{
+					minR = Double.parseDouble(parts[1]);
+					maxR = Double.parseDouble(parts[2]);
+					minI = Double.parseDouble(parts[3]);
+					maxI = Double.parseDouble(parts[4]);
+					
+					int iterations = Integer.parseInt(parts[5]);
+				}catch(NumberFormatException e){
+					// Catch if none of the above can be successfully made into numbers
+					System.err.println("Error reading line "+lineNum+": range or iterations values not numbers");
+					continue;
+				}
+				
+				// If there is a 7th part, try to extract the ComplexNumber from it. Just skip if one of a null is found or if it doesn't match the expected pattern "(double,double)"
+				if(parts.length == 7 && parts[7].matches(".*\\(\\d+\\.\\d+,\\d+\\.\\d+\\).*") && !(parts[7].equals("(null)") || parts[7].equals("null"))){
+					// Check if it is the required format "(double,double)"
+					//if(){}
+					// Split it up into the real and complex parts
+					String[] complexParts;
+					complexParts = parts[7].substring(parts[7].indexOf('(')+1, parts[7].lastIndexOf(')')).split(",");
+					
+					// Try to put it into a complex number
+					ComplexNumber fixedComlex;
+					try{
+						fixedComlex= new ComplexNumber(Double.parseDouble(complexParts[0]),Double.parseDouble(complexParts[1]));
+					}catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
+						System.err.println("Error reading line "+lineNum+": fixed complex cannot be read");
+						continue;
+					}
+					
+					// Everything has been read! Time to make a SavedVeiw :D
+					try{
+						veiws.add(new SavedView(name, type, minR, maxR, minI, maxI));
+					}catch(NameInUseException e){
+						System.err.println("Warning creating save on line "+lineNum+": name already in use");
+						// Add suffixes to the name until it allows it in
+						int suffix = 1;
+						while(true){
+							try{
+								veiws.add(new SavedView(name+"_"+suffix, type, minR, maxR, minI, maxI));
+								break;
+							}catch(NameInUseException e1){
+								suffix++;
+							}
+						}
+					}
+					
+				}
+				
+				
+			}
+			// Close the buffered reader
+			br.close();
+		}catch(FileNotFoundException e){
+			// Show message on error
+			JOptionPane.showMessageDialog(null,"File "+f.getName()+" not found","Error",JOptionPane.ERROR_MESSAGE);
+		}catch(IOException e){
+			JOptionPane.showMessageDialog(null,"Error reading from the file","Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

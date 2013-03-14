@@ -255,7 +255,7 @@ public class FractalExplorer extends JFrame{
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!tExportNameBox.getText().equals("")){
-					SavedView.export(tExportNameBox.getText());
+					SavedView.exportSaves(tExportNameBox.getText());
 				}else{
 					JOptionPane.showMessageDialog(null,
 							"File name must be supplied",
