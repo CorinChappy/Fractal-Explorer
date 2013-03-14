@@ -3,6 +3,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
 
 
@@ -266,11 +267,26 @@ public class FractalExplorer extends JFrame{
 				tExportNameBox.setText("");
 			}
 		});
+		
+		// Make the import button
+		JButton importButton = new JButton("Import saved fractals");
+		importButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JFileChooser chooser = new JFileChooser();
+			    chooser.setFileFilter(new FileNameExtensionFilter("FEF fractal save files", "fef"));
+			    int returnVal = chooser.showOpenDialog(F);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       SavedView.importSaves(chooser.getSelectedFile(), true);
+			    }
+			}
+		});
+		
 
 		
 		menuBar.add(saveMenu);
 		menuBar.add(loadMenu);
 		menuBar.add(exportMenu);
+		menuBar.add(importButton);
 		return menuBar;
 	}
 
