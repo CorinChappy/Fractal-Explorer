@@ -278,10 +278,11 @@ public class SavedView {
 	
 	// Export the saves as a file
 	public static void exportSaves(String fileName){
+		String[] names = getSavedNames();
+		if(names.length < 1){JOptionPane.showMessageDialog(null,"No fractals are currently saved","Note",JOptionPane.INFORMATION_MESSAGE); return;}
 		try{
 			FileWriter fileStream = new FileWriter(fileName+".fef");
 			BufferedWriter writer = new BufferedWriter(fileStream);
-			String[] names = getSavedNames();
 			for(int i = 0; i < names.length; i++){
 				writer.write(names[i]+"|"+loadView(names[i]).getExportString());
 				writer.newLine();
@@ -349,21 +350,23 @@ public class SavedView {
 				
 				// If there is a 7th part, try to extract the ComplexNumber from it. Just skip if one of a null is found or if it doesn't match the expected pattern "(double,double)"
 				ComplexNumber fixedComplex = null;
-				if(parts.length == 7 && parts[6].matches(".*\\(\\d+\\.\\d+,\\d+\\.\\d+\\).*") && !(parts[6].equals("(null)") || parts[6].equals("null"))){
-					// Check if it is the required format "(double,double)"
-					//if(){}
-					// Split it up into the real and complex parts
-					String[] complexParts;
-					complexParts = parts[6].substring(parts[6].indexOf('(')+1, parts[6].lastIndexOf(')')).split(",");
-					
-					// Try to put it into a complex number
-					try{
-						fixedComplex = new ComplexNumber(Double.parseDouble(complexParts[0]),Double.parseDouble(complexParts[1]));
-					}catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
-						System.err.println("Error reading line "+lineNum+": fixed complex cannot be read");
-						continue;
-					}
-					
+				if(parts.length == 7 && !(parts[6].equals("(null)") || parts[6].equals("null"))){
+					//if(parts[6].matches("\\(\\d+\\.\\d+,\\d+\\.\\d+\\)")){
+						// Split it up into the real and complex parts
+						String[] complexParts;
+						complexParts = parts[6].substring(parts[6].indexOf('(')+1, parts[6].lastIndexOf(')')).split(",");
+
+						// Try to put it into a complex number
+						try{
+							fixedComplex = new ComplexNumber(Double.parseDouble(complexParts[0]),Double.parseDouble(complexParts[1]));
+						}catch(NumberFormatException | ArrayIndexOutOfBoundsException e){
+							System.err.println("Error reading line "+lineNum+": fixed complex cannot be read");
+							continue;
+						}
+					//}else{
+					//	System.err.println("Error reading line "+lineNum+": fixed complex does not match format");
+					//}
+
 				}
 				
 				// Everything has been read! Time to make a SavedVeiw :D
