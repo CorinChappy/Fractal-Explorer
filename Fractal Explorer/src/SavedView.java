@@ -397,7 +397,7 @@ public class SavedView {
 					}catch(NameInUseException e){}
 				}
 			}else{
-				JOptionPane.showMessageDialog(null,"File "+f.getName()+" contains no new or correct Fractals","Note",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"File "+f.getName()+" contains no new or correctly defined Fractals","Note",JOptionPane.INFORMATION_MESSAGE);
 			}
 			
 			// Close the buffered reader
