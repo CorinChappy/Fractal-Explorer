@@ -19,7 +19,7 @@ public class FractalExplorer extends JFrame{
 			public void run() {
 				FractalExplorer f = new FractalExplorer();
 				f.createMandelbrot();
-				f.changeFractal(new BurningShip(),true);
+				//f.changeFractal(new BurningShip(),true);
 			}
 		});
 	}

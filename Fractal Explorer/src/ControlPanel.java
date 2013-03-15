@@ -145,32 +145,22 @@ class ControlPanel extends JPanel{
 		gbc_lblRanges.gridy = 4;
 		add(lblRanges, gbc_lblRanges);
 		
-		JLabel lblNewLabel_1 = new JLabel("Julia selection");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridheight = 2;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 4;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblFractalType = new JLabel("Fractal type");
+		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
+		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFractalType.gridx = 5;
+		gbc_lblFractalType.gridy = 4;
+		add(lblFractalType, gbc_lblFractalType);
 		
-		JRadioButton juliaNone = new JRadioButton("None");
-		juliaSelection.add(juliaNone);
-		GridBagConstraints gbc_juliaNone = new GridBagConstraints();
-		gbc_juliaNone.gridheight = 2;
-		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaNone.gridx = 6;
-		gbc_juliaNone.gridy = 4;
-		add(juliaNone, gbc_juliaNone);
-		
-		JRadioButton juliaStatic = new JRadioButton("Static");
-		juliaSelection.add(juliaStatic);
-		juliaStatic.setSelected(true);
-		GridBagConstraints gbc_juliaStatic = new GridBagConstraints();
-		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
-		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaStatic.gridx = 7;
-		gbc_juliaStatic.gridy = 4;
-		add(juliaStatic, gbc_juliaStatic);
+		fractalSelectionBox = new JComboBox<String>();
+		fractalSelectionBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Mandelbrot"}));
+		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
+		gbc_fractalSelectionBox.gridwidth = 2;
+		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
+		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fractalSelectionBox.gridx = 6;
+		gbc_fractalSelectionBox.gridy = 4;
+		add(fractalSelectionBox, gbc_fractalSelectionBox);
 		
 		JLabel lblReal = new JLabel("Real");
 		GridBagConstraints gbc_lblReal = new GridBagConstraints();
@@ -207,14 +197,6 @@ class ControlPanel extends JPanel{
 		add(maxR, gbc_maxR);
 		maxR.setColumns(10);
 		
-		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
-		juliaSelection.add(juliaDynamic);
-		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
-		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaDynamic.gridx = 7;
-		gbc_juliaDynamic.gridy = 5;
-		add(juliaDynamic, gbc_juliaDynamic);
-		
 		JLabel lblImaginary = new JLabel("Imaginary");
 		GridBagConstraints gbc_lblImaginary = new GridBagConstraints();
 		gbc_lblImaginary.anchor = GridBagConstraints.EAST;
@@ -250,29 +232,20 @@ class ControlPanel extends JPanel{
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
-		JLabel lblFractalType = new JLabel("Fractal type");
-		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
-		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFractalType.gridx = 5;
-		gbc_lblFractalType.gridy = 7;
-		add(lblFractalType, gbc_lblFractalType);
-		
-		fractalSelectionBox = new JComboBox<String>();
-		fractalSelectionBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Mandelbrot"}));
-		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
-		gbc_fractalSelectionBox.gridwidth = 2;
-		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
-		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_fractalSelectionBox.gridx = 6;
-		gbc_fractalSelectionBox.gridy = 7;
-		add(fractalSelectionBox, gbc_fractalSelectionBox);
+		JButton genColButton = new JButton("Generate new colour set");
+		GridBagConstraints gbc_genColButton = new GridBagConstraints();
+		gbc_genColButton.gridwidth = 3;
+		gbc_genColButton.insets = new Insets(0, 0, 5, 5);
+		gbc_genColButton.gridx = 5;
+		gbc_genColButton.gridy = 6;
+		add(genColButton, gbc_genColButton);
 		
 		JButton resetSet = new JButton("Reset");
 		GridBagConstraints gbc_resetSet = new GridBagConstraints();
 		gbc_resetSet.fill = GridBagConstraints.HORIZONTAL;
 		gbc_resetSet.insets = new Insets(0, 0, 5, 5);
 		gbc_resetSet.gridx = 1;
-		gbc_resetSet.gridy = 8;
+		gbc_resetSet.gridy = 7;
 		add(resetSet, gbc_resetSet);
 		
 		JButton redraw = new JButton("Generate set");
@@ -281,8 +254,43 @@ class ControlPanel extends JPanel{
 		gbc_redraw.gridwidth = 2;
 		gbc_redraw.insets = new Insets(0, 0, 5, 5);
 		gbc_redraw.gridx = 3;
-		gbc_redraw.gridy = 8;
+		gbc_redraw.gridy = 7;
 		add(redraw, gbc_redraw);
+		
+		JLabel lblNewLabel_1 = new JLabel("Julia selection");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridheight = 2;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 5;
+		gbc_lblNewLabel_1.gridy = 7;
+		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JRadioButton juliaNone = new JRadioButton("None");
+		juliaSelection.add(juliaNone);
+		GridBagConstraints gbc_juliaNone = new GridBagConstraints();
+		gbc_juliaNone.gridheight = 2;
+		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaNone.gridx = 6;
+		gbc_juliaNone.gridy = 7;
+		add(juliaNone, gbc_juliaNone);
+		
+		JRadioButton juliaStatic = new JRadioButton("Static");
+		juliaSelection.add(juliaStatic);
+		juliaStatic.setSelected(true);
+		GridBagConstraints gbc_juliaStatic = new GridBagConstraints();
+		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
+		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaStatic.gridx = 7;
+		gbc_juliaStatic.gridy = 7;
+		add(juliaStatic, gbc_juliaStatic);
+		
+		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
+		juliaSelection.add(juliaDynamic);
+		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
+		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaDynamic.gridx = 7;
+		gbc_juliaDynamic.gridy = 8;
+		add(juliaDynamic, gbc_juliaDynamic);
 		
 		JLabel label_2 = new JLabel(" ");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
@@ -321,7 +329,7 @@ class ControlPanel extends JPanel{
 
 		// Change the settings and redraw the set
 		redraw.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				// Set the iterations
 				p.setMaxIterations(itSlider.getValue());
 				// Integer to represent the errors in the bound input
@@ -330,10 +338,10 @@ class ControlPanel extends JPanel{
 				// Set the bounds
 				try{
 					p.setRealRange(Double.parseDouble(minR.getText()), Double.parseDouble(maxR.getText()));
-				}catch(NumberFormatException e){boundsError += 1;}
+				}catch(NumberFormatException err){boundsError += 1;}
 				try{
 					p.setImaginaryRange(Double.parseDouble(minI.getText()), Double.parseDouble(maxI.getText()));
-				}catch(NumberFormatException e){boundsError += 2;}
+				}catch(NumberFormatException err){boundsError += 2;}
 
 				if(boundsError > 0){
 					String str[] = {"Ranges must be numbers: \n",
@@ -358,6 +366,53 @@ class ControlPanel extends JPanel{
 				updateValues();
 			}
 		});
+		
+		
+		// Add Listener to the Cache checkbox
+		cacheCheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				p.enableCache(e.getStateChange() == ItemEvent.SELECTED);
+			}
+		});
+		
+		// Add a listener to the Fractal combo box
+		fractalSelectionBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Get the ComboBox and then the item from it
+				JComboBox<?> cb = (JComboBox<?>) e.getSource();
+				String className = (String) cb.getSelectedItem();
+				
+				// Try to create a new instance of the given fractal (not very efficient I know...)
+				Fractal f;
+				try {
+					if(!classes.contains(Class.forName(className))){throw new ClassNotFoundException();}
+					 f = (Fractal) Class.forName(className).newInstance();
+				}catch(InstantiationException | IllegalAccessException | ClassCastException | ClassNotFoundException err){
+					JOptionPane.showMessageDialog(null,"Error changing Fractal, sorry! \n("+err.getMessage()+")","Error",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				// Convert the ranges over
+				f.setRealRange(p.getMinReal(), p.getMaxReal());
+				f.setImaginaryRange(p.getMinImaginary(), p.getMaxImaginary());
+				f.setMaxIterations(p.getMaxIterations());
+				
+				// Change the frame's fractal
+				((FractalExplorer) p.getTopLevelAncestor()).changeFractal(f, true);
+				
+				// Now update those control panel values
+				f.getControlPanel().updateValues();
+			}
+		});
+		
+		genColButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Fractal.generateColourSet();
+				p.repaint();
+			}
+		});
+		
+		
 		
 		// Only the Mandelbrot can have a Juila set
 		if(p.getClass().equals(Mandelbrot.class)){
@@ -389,20 +444,6 @@ class ControlPanel extends JPanel{
 			this.remove(juliaStatic);
 			this.remove(juliaDynamic);
 		}
-		
-		// Add Listener to the Cache checkbox
-		cacheCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				p.enableCache(e.getStateChange() == ItemEvent.SELECTED);
-			}
-		});
-		
-		// Add a listener to the Fractal combo box
-		fractalSelectionBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 
 	}
 

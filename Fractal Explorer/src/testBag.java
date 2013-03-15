@@ -112,32 +112,22 @@ public class testBag extends JPanel {
 		gbc_lblRanges.gridy = 4;
 		add(lblRanges, gbc_lblRanges);
 		
-		JLabel lblNewLabel_1 = new JLabel("Julia selection");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridheight = 2;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 4;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblFractalType = new JLabel("Fractal type");
+		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
+		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFractalType.gridx = 5;
+		gbc_lblFractalType.gridy = 4;
+		add(lblFractalType, gbc_lblFractalType);
 		
-		JRadioButton juliaNone = new JRadioButton("None");
-		juliaSelection.add(juliaNone);
-		GridBagConstraints gbc_juliaNone = new GridBagConstraints();
-		gbc_juliaNone.gridheight = 2;
-		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaNone.gridx = 6;
-		gbc_juliaNone.gridy = 4;
-		add(juliaNone, gbc_juliaNone);
-		
-		JRadioButton juliaStatic = new JRadioButton("Static");
-		juliaSelection.add(juliaStatic);
-		juliaStatic.setSelected(true);
-		GridBagConstraints gbc_juliaStatic = new GridBagConstraints();
-		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
-		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaStatic.gridx = 7;
-		gbc_juliaStatic.gridy = 4;
-		add(juliaStatic, gbc_juliaStatic);
+		JComboBox fractalSelectionBox = new JComboBox();
+		fractalSelectionBox.setModel(new DefaultComboBoxModel(new String[] {"Mandelbrot"}));
+		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
+		gbc_fractalSelectionBox.gridwidth = 2;
+		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
+		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fractalSelectionBox.gridx = 6;
+		gbc_fractalSelectionBox.gridy = 4;
+		add(fractalSelectionBox, gbc_fractalSelectionBox);
 		
 		JLabel lblReal = new JLabel("Real");
 		GridBagConstraints gbc_lblReal = new GridBagConstraints();
@@ -174,14 +164,6 @@ public class testBag extends JPanel {
 		add(maxR, gbc_maxR);
 		maxR.setColumns(10);
 		
-		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
-		juliaSelection.add(juliaDynamic);
-		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
-		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
-		gbc_juliaDynamic.gridx = 7;
-		gbc_juliaDynamic.gridy = 5;
-		add(juliaDynamic, gbc_juliaDynamic);
-		
 		JLabel lblImaginary = new JLabel("Imaginary");
 		GridBagConstraints gbc_lblImaginary = new GridBagConstraints();
 		gbc_lblImaginary.anchor = GridBagConstraints.EAST;
@@ -217,29 +199,20 @@ public class testBag extends JPanel {
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
-		JLabel lblFractalType = new JLabel("Fractal type");
-		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
-		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFractalType.gridx = 5;
-		gbc_lblFractalType.gridy = 7;
-		add(lblFractalType, gbc_lblFractalType);
-		
-		JComboBox fractalSelectionBox = new JComboBox();
-		fractalSelectionBox.setModel(new DefaultComboBoxModel(new String[] {"Mandelbrot"}));
-		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
-		gbc_fractalSelectionBox.gridwidth = 2;
-		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
-		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_fractalSelectionBox.gridx = 6;
-		gbc_fractalSelectionBox.gridy = 7;
-		add(fractalSelectionBox, gbc_fractalSelectionBox);
+		JButton genColButton = new JButton("Generate new colour set");
+		GridBagConstraints gbc_genColButton = new GridBagConstraints();
+		gbc_genColButton.gridwidth = 3;
+		gbc_genColButton.insets = new Insets(0, 0, 5, 5);
+		gbc_genColButton.gridx = 5;
+		gbc_genColButton.gridy = 6;
+		add(genColButton, gbc_genColButton);
 		
 		JButton resetSet = new JButton("Reset");
 		GridBagConstraints gbc_resetSet = new GridBagConstraints();
 		gbc_resetSet.fill = GridBagConstraints.HORIZONTAL;
 		gbc_resetSet.insets = new Insets(0, 0, 5, 5);
 		gbc_resetSet.gridx = 1;
-		gbc_resetSet.gridy = 8;
+		gbc_resetSet.gridy = 7;
 		add(resetSet, gbc_resetSet);
 		
 		JButton redraw = new JButton("Generate set");
@@ -248,8 +221,43 @@ public class testBag extends JPanel {
 		gbc_redraw.gridwidth = 2;
 		gbc_redraw.insets = new Insets(0, 0, 5, 5);
 		gbc_redraw.gridx = 3;
-		gbc_redraw.gridy = 8;
+		gbc_redraw.gridy = 7;
 		add(redraw, gbc_redraw);
+		
+		JLabel lblNewLabel_1 = new JLabel("Julia selection");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridheight = 2;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 5;
+		gbc_lblNewLabel_1.gridy = 7;
+		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JRadioButton juliaNone = new JRadioButton("None");
+		juliaSelection.add(juliaNone);
+		GridBagConstraints gbc_juliaNone = new GridBagConstraints();
+		gbc_juliaNone.gridheight = 2;
+		gbc_juliaNone.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaNone.gridx = 6;
+		gbc_juliaNone.gridy = 7;
+		add(juliaNone, gbc_juliaNone);
+		
+		JRadioButton juliaStatic = new JRadioButton("Static");
+		juliaSelection.add(juliaStatic);
+		juliaStatic.setSelected(true);
+		GridBagConstraints gbc_juliaStatic = new GridBagConstraints();
+		gbc_juliaStatic.anchor = GridBagConstraints.WEST;
+		gbc_juliaStatic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaStatic.gridx = 7;
+		gbc_juliaStatic.gridy = 7;
+		add(juliaStatic, gbc_juliaStatic);
+		
+		JRadioButton juliaDynamic = new JRadioButton("Dynamic");
+		juliaSelection.add(juliaDynamic);
+		GridBagConstraints gbc_juliaDynamic = new GridBagConstraints();
+		gbc_juliaDynamic.insets = new Insets(0, 0, 5, 5);
+		gbc_juliaDynamic.gridx = 7;
+		gbc_juliaDynamic.gridy = 8;
+		add(juliaDynamic, gbc_juliaDynamic);
 		
 		JLabel label_2 = new JLabel(" ");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();

@@ -15,6 +15,10 @@ public abstract class Fractal extends JPanel{
 	// The control panel of this Fractal
 	ControlPanel controler;
 	
+	// Colour storage variables
+	private static Color baseColour;
+	private static Color[] colours;
+	
 	// doubles to represent the ranges
 	protected double minR, maxR, minI, maxI;
 	
@@ -42,7 +46,10 @@ public abstract class Fractal extends JPanel{
 	private boolean useCache = true;
 
 	// Iteration variables
+	// TODO: REMEMBER TO PUT THESE INTO THE CONTROL PANEL
 	public final static int DEFAULT_ITERATIONS = 100;
+	public final static int MAX_ITERATIONS = 1000;
+	public final static int MIN_ITERATIONS = 10;
 	protected int iterations;
 
 	public Fractal(double minR, double maxR, double minI, double maxI, int iter){
@@ -184,12 +191,37 @@ public abstract class Fractal extends JPanel{
 		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
 		*/
 
-		
+		/*
 		int div = 1677216/iterations;
 		//int div = 255/iterations;
 
 		int colnum = div*it;
-		return new Color(colnum);
+		return new Color(colnum);*/
+		
+		
+		/*if(it >= iterations){
+			return Color.BLACK;
+		}
+		
+		for(int i=0; i<it; i++){
+			col = col.darker();
+			if(col.equals(Color.BLACK)){
+				//col = new Color(1+(int) (Math.random()*255),1+(int) (Math.random()*255),1+(int) (Math.random()*255));
+			}
+		}
+		return col;*/
+		
+		if(colours == null || colours.length < MAX_ITERATIONS){
+			generateColourSet();
+		}
+		
+		// If it's in the set return black
+		if(it >= iterations){
+			return Color.BLACK;
+		}
+		
+		// Otherwise return it's generated colour
+		return colours[it];
 	}
 	
 	// Getters and setters for the ControlPanel
@@ -282,6 +314,35 @@ public abstract class Fractal extends JPanel{
 		setRealRange(newCentre.getReal() - realOffset, newCentre.getReal() + realOffset);
 		setImaginaryRange(newCentre.getImaginary() - imaginaryOffset, newCentre.getImaginary() + imaginaryOffset);
 	}
+	
+	
+	
+	// Generates the colour set on startup and on button click
+	// Make it static so that colours persist over the session (unless button is pressed)
+	public static void generateColourSet(Color baseColour){
+		Color col = new Color((Fractal.baseColour = new Color(baseColour.getRGB())).getRGB());
+		
+		Fractal.colours = new Color[MAX_ITERATIONS];
+		for(int i=0; i<MAX_ITERATIONS; i++){
+			Fractal.colours[i] = col.darker();
+			col = col.darker();
+			//if(col.equals(Color.BLACK)){
+			if(col.getBlue() < 50 && col.getRed() < 50 && col.getGreen() < 50){
+				col = new Color(1+(int) (Math.random()*254),1+(int) (Math.random()*254),1+(int) (Math.random()*254));
+			}
+		}
+	}
+	public static void generateColourSet(){
+		// Set a (random) base colour 
+		generateColourSet(new Color(1+(int) (Math.random()*254),1+(int) (Math.random()*254),1+(int) (Math.random()*254)));
+		//generateColourSet(new Color(150,150,150));
+	}
+	// Getter for the base colour (use generateColourSet for the setter)
+	public static Color getBaseColour(){
+		return baseColour;
+	}
+	
+	
 	
 	
 	// The Overlay class, a helper class that displays the axis among others
