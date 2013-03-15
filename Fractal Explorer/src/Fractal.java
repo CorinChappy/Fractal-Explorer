@@ -46,7 +46,6 @@ public abstract class Fractal extends JPanel{
 	private boolean useCache = true;
 
 	// Iteration variables
-	// TODO: REMEMBER TO PUT THESE INTO THE CONTROL PANEL
 	public final static int DEFAULT_ITERATIONS = 100;
 	public final static int MAX_ITERATIONS = 1000;
 	public final static int MIN_ITERATIONS = 10;
@@ -181,15 +180,11 @@ public abstract class Fractal extends JPanel{
 		
 	}
 	
-	protected Color genColor(int it){return this.genColor(it, new ComplexNumber(0,0));}
-	// Gets the colour the display from the number of iterations
-	// TODO: create a better algorithm
-	protected Color genColor(int it, ComplexNumber c){
-		/*/ SUPER FUNKY COlOURS
-		float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
 
-		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
-		*/
+	// Gets the colour the display from the number of iterations
+	protected Color genColor(int it){
+		// The colouring was always a struggle for me, I settled with this combination.
+		// Maybe i'm just anal about it's look?
 
 		
 
@@ -300,9 +295,6 @@ public abstract class Fractal extends JPanel{
 		double realOffset =  (maxR - minR)/2;
 		double imaginaryOffset = (maxI - minI)/2;
 		
-		// Get the complex of the new centre
-		//ComplexNumber newCentre = getComplex(p);
-		
 		// Set the ranges
 		setRealRange(newCentre.getReal() - realOffset, newCentre.getReal() + realOffset);
 		setImaginaryRange(newCentre.getImaginary() - imaginaryOffset, newCentre.getImaginary() + imaginaryOffset);
@@ -328,7 +320,6 @@ public abstract class Fractal extends JPanel{
 	public static void generateColourSet(){
 		// Set a (random) base colour 
 		generateColourSet(new Color(1+(int) (Math.random()*254),1+(int) (Math.random()*254),1+(int) (Math.random()*254)));
-		//generateColourSet(new Color(150,150,150));
 	}
 	// Getter for the base colour (use generateColourSet for the setter)
 	public static Color getBaseColour(){

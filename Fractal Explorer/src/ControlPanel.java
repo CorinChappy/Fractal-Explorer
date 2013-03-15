@@ -88,8 +88,8 @@ class ControlPanel extends JPanel{
 		
 		itSlider = new JSlider();
 		itSlider.setValue(100);
-		itSlider.setMinimum(10);
-		itSlider.setMaximum(1000);
+		itSlider.setMinimum(Fractal.MIN_ITERATIONS);
+		itSlider.setMaximum(Fractal.MAX_ITERATIONS);
 		GridBagConstraints gbc_itSlider = new GridBagConstraints();
 		gbc_itSlider.fill = GridBagConstraints.HORIZONTAL;
 		gbc_itSlider.gridwidth = 3;
