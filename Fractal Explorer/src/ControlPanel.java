@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -33,7 +34,7 @@ class ControlPanel extends JPanel{
 	Fractal p;
 	
 	// An array containing all the Fractals to be displayed
-	private Set<Class<? extends Fractal>> classes = new HashSet<Class<? extends Fractal>>();
+    private ArrayList<Class<? extends Fractal>> classes = new ArrayList<Class<? extends Fractal>>();
 
 	// The text fields
 	private JTextField itDisplay;
@@ -49,11 +50,15 @@ class ControlPanel extends JPanel{
 	public ControlPanel(Fractal f) {
 		this.p = f;
 		
-		// Add the current fractal's class to the Array List
-		classes.add(f.getClass());
-		// Add the defaults to the ArrayList (set will not add what was already defined above)
-		classes.add(Mandelbrot.class);
-		classes.add(BurningShip.class);
+        // Add the current fractal's class to the Array List
+        classes.add(f.getClass());
+        // Add the defaults to the ArrayList (but not if it has already been defined above)
+        if(f.getClass() != Mandelbrot.class){
+                classes.add(Mandelbrot.class);
+        }
+        if(f.getClass() != BurningShip.class){
+                classes.add(BurningShip.class);
+        }
 		
 
 
