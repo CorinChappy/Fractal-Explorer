@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,6 +28,9 @@ import javax.swing.event.ChangeListener;
 class ControlPanel extends JPanel{
 
 	Fractal p;
+	
+	// An array containing all the Fractals to be displayed
+	private ArrayList<Class<? extends Fractal>> classes = new ArrayList<Class<? extends Fractal>>();
 
 	// The text fields
 	private JTextField itDisplay;
@@ -34,10 +40,21 @@ class ControlPanel extends JPanel{
 	private JTextField maxI;
 	private JSlider itSlider;
 	private final ButtonGroup juliaSelection = new ButtonGroup();
+	private JComboBox<String> fractalSelectionBox;
 
 
 	public ControlPanel(Fractal f) {
 		this.p = f;
+		
+		// Add the current fractal's class to the Array List
+		classes.add(f.getClass());
+		// Add the defaults to the ArrayList (but not if it has already been defined above)
+		if(f.getClass() != Mandelbrot.class){
+			classes.add(Mandelbrot.class);
+		}
+		if(f.getClass() != BurningShip.class){
+			classes.add(BurningShip.class);
+		}
 
 
 		/* 
@@ -233,6 +250,23 @@ class ControlPanel extends JPanel{
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
+		JLabel lblFractalType = new JLabel("Fractal type");
+		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
+		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFractalType.gridx = 5;
+		gbc_lblFractalType.gridy = 7;
+		add(lblFractalType, gbc_lblFractalType);
+		
+		fractalSelectionBox = new JComboBox<String>();
+		fractalSelectionBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Mandelbrot"}));
+		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
+		gbc_fractalSelectionBox.gridwidth = 2;
+		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
+		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fractalSelectionBox.gridx = 6;
+		gbc_fractalSelectionBox.gridy = 7;
+		add(fractalSelectionBox, gbc_fractalSelectionBox);
+		
 		JButton resetSet = new JButton("Reset");
 		GridBagConstraints gbc_resetSet = new GridBagConstraints();
 		gbc_resetSet.fill = GridBagConstraints.HORIZONTAL;
@@ -260,7 +294,9 @@ class ControlPanel extends JPanel{
 
 		// Set the default values
 		updateValues();
-
+		
+		// Update the combobox
+		updateComboBox();
 
 		// Create the event listeners
 
@@ -365,6 +401,13 @@ class ControlPanel extends JPanel{
 				p.enableCache(e.getStateChange() == ItemEvent.SELECTED);
 			}
 		});
+		
+		// Add a listener to the Fractal combo box
+		fractalSelectionBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 
 	}
 
@@ -375,6 +418,19 @@ class ControlPanel extends JPanel{
 		maxR.setText(""+p.getMaxReal()+"");
 		minI.setText(""+p.getMinImaginary()+"");
 		maxI.setText(""+p.getMaxImaginary()+"");
+	}
+	
+	public void addFractal(Class<? extends Fractal> c){
+		classes.add(c);
+		updateComboBox();
+	}
+	
+	private void updateComboBox(){
+		String[] classNames = new String[classes.size()];
+		for(int i=0; i < classes.size(); i++){
+			classNames[i] = classes.get(i).getName();
+		}
+		fractalSelectionBox.setModel(new DefaultComboBoxModel<String>(classNames));
 	}
 
 

@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 
 @SuppressWarnings("serial")
@@ -214,6 +216,23 @@ public class testBag extends JPanel {
 		gbc_maxI.gridy = 6;
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
+		
+		JLabel lblFractalType = new JLabel("Fractal type");
+		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
+		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFractalType.gridx = 5;
+		gbc_lblFractalType.gridy = 7;
+		add(lblFractalType, gbc_lblFractalType);
+		
+		JComboBox fractalSelectionBox = new JComboBox();
+		fractalSelectionBox.setModel(new DefaultComboBoxModel(new String[] {"Mandelbrot"}));
+		GridBagConstraints gbc_fractalSelectionBox = new GridBagConstraints();
+		gbc_fractalSelectionBox.gridwidth = 2;
+		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
+		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fractalSelectionBox.gridx = 6;
+		gbc_fractalSelectionBox.gridy = 7;
+		add(fractalSelectionBox, gbc_fractalSelectionBox);
 		
 		JButton resetSet = new JButton("Reset");
 		GridBagConstraints gbc_resetSet = new GridBagConstraints();
