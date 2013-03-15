@@ -17,9 +17,7 @@ public class FractalExplorer extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				FractalExplorer f = new FractalExplorer();
-				f.createMandelbrot();
-				//f.changeFractal(new BurningShip(),true);
+				new FractalExplorer().createMandelbrot();
 			}
 		});
 	}
@@ -349,27 +347,7 @@ public class FractalExplorer extends JFrame{
 
 		public void mouseWheelMoved(MouseWheelEvent e){
 			double zoomFactor = (e.getWheelRotation() < 0)?1/1.5:1.5;
-			/*ComplexNumber zoomPoint = f.getComplex(e.getPoint());
-
-
-			// Calculate distances and ratios
-			Point centre = new Point(f.getWidth()/2,f.getHeight()/2);
-			int offsetX = e.getPoint().x - centre.x;
-			int offsetY = e.getPoint().y - centre.y;
-
-			// Set the centre as where the mouse is
-			//f.setCentre(zoomPoint);
-			// Move the display along again
-			zoomPoint = f.getComplex(centre.x + offsetX, centre.y + offsetY);
-			// Zoom in
-			f.setRealRange(f.getMinReal()*zoomFactor, f.getMaxReal()*zoomFactor);
-			f.setImaginaryRange(f.getMinImaginary()*zoomFactor, f.getMaxImaginary()*zoomFactor);
-
-
-
-
-			// Set the new centre
-			f.setCentre(zoomPoint);*/
+			// Zooming method still needs a lot of work; I never got around to debugging it
 
 			double ratioX = e.getPoint().getX()/f.getWidth();
 			double ratioY = e.getPoint().getY()/f.getHeight();
