@@ -3,6 +3,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.*;
 
 
@@ -16,8 +17,9 @@ public class FractalExplorer extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new FractalExplorer().createMandelbrot();
-				//new FractalExplorer().createFractal(new BurningShip(), true);
+				FractalExplorer f = new FractalExplorer();
+				f.createMandelbrot();
+				f.changeFractal(new BurningShip(),true);
 			}
 		});
 	}
@@ -65,6 +67,9 @@ public class FractalExplorer extends JFrame{
 
 			this.setPreferredSize(new Dimension(585, 655));
 			this.setMinimumSize(new Dimension(535, 575));
+		}else{
+			// Remove the axis
+			f.displayAxis(false);
 		}
 
 
@@ -103,7 +108,9 @@ public class FractalExplorer extends JFrame{
 				ControlPanel controller = new ControlPanel(f);
 				this.add(controller,BorderLayout.SOUTH);
 				this.controller = controller;
-				f.setControlPanel(controller);
+				f.setControlPanel(controller);				
+				// Make a new MenuBar
+				this.setJMenuBar(this.createMenuBar());
 
 				this.setPreferredSize(new Dimension(585, 655));
 				this.setMinimumSize(new Dimension(535, 575));
@@ -112,9 +119,14 @@ public class FractalExplorer extends JFrame{
 			// Set the sizes to non-control panel style
 			this.setPreferredSize(new Dimension(400, 400));
 			this.setMinimumSize(new Dimension(400, 400));
+			// Remove the axis
+			f.displayAxis(false);
 			this.controller = null;
+			// Make a new MenuBar
+			this.setJMenuBar(this.createMenuBar());
 		}
 		this.F = f;
+		this.pack();
 		return oldF;
 	}
 
@@ -187,7 +199,7 @@ public class FractalExplorer extends JFrame{
 					JOptionPane.showMessageDialog(null,
 							er.getNamedMessage(),
 							"Error",
-						    JOptionPane.ERROR_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 				}
 				tNameBox.setText("");
 			}
@@ -214,13 +226,14 @@ public class FractalExplorer extends JFrame{
 			}
 			public void menuDeselected(MenuEvent arg0){}
 			public void menuCanceled(MenuEvent arg0){}
-			
+
 			// Listener for each of the loads
 			class LoadListener implements ActionListener{
 				public void actionPerformed(ActionEvent e){
 					AbstractButton item = ((AbstractButton) e.getSource());
 					// If the window has no control panel then create a new frame to display the fractal
-					if(controller == null){
+					// And make an exception for Julias
+					if(controller == null || SavedView.loadView(item.getText()).getType() == Julia.class){
 						SavedView.loadFramedFractal(item.getText(), false);
 					}else{
 						// Import it into the current fractal
@@ -228,49 +241,50 @@ public class FractalExplorer extends JFrame{
 					}
 				}
 			}
-			
-			
+
+
 		});
 		
-		// Export menu button
-		JMenu exportMenu = new JMenu("Export saved fractals");
-		exportMenu.setMnemonic(KeyEvent.VK_E);
-		JMenuItem exportBox = new JMenuItem("                                                 ");
-		exportBox.setSize(50,10);
-		exportBox.setMnemonic(KeyEvent.VK_N);
-		exportBox.setEnabled(false);
-		exportBox.setLayout(new BorderLayout());
-		JPanel exportBoxPanel = new JPanel();
-		exportBoxPanel.setLayout(new BorderLayout());
-		exportBox.add(exportBoxPanel, BorderLayout.CENTER);
-		exportBoxPanel.add(new JLabel("File name: "), BorderLayout.WEST);
-		final JTextField tExportNameBox = new JTextField(100);
-		exportBoxPanel.add(tExportNameBox, BorderLayout.CENTER);
-		exportMenu.add(exportBox);
-
-		JMenuItem exportButton = new JMenuItem("Export");
-		exportMenu.add(exportButton);
-		
-		
-		exportButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(!tExportNameBox.getText().equals("")){
-					SavedView.export(tExportNameBox.getText());
-				}else{
-					JOptionPane.showMessageDialog(null,
-							"File name must be supplied",
-							"Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-				
-				tExportNameBox.setText("");
-			}
-		});
-
-		
+		// Add the menus to the control panel
 		menuBar.add(saveMenu);
 		menuBar.add(loadMenu);
-		menuBar.add(exportMenu);
+
+		// Only have the import and export buttons when a control panel is present
+		if(controller != null){
+
+			// Make the export button
+			JButton exportButton = new JButton("Export saved fractals");
+			exportButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(SavedView.getSavedNames().length < 1){JOptionPane.showMessageDialog(null,"No fractals are currently saved","Note",JOptionPane.INFORMATION_MESSAGE); return;}
+					JFileChooser chooser = new JFileChooser();
+					chooser.setFileFilter(new FileNameExtensionFilter("FEF fractal save files", "fef"));
+					int returnVal = chooser.showSaveDialog(FractalExplorer.this);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						SavedView.exportSaves(chooser.getSelectedFile().getPath());
+					}
+				}
+			});
+
+			// Make the import button
+			JButton importButton = new JButton("Import saved fractals");
+			importButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					JFileChooser chooser = new JFileChooser();
+					chooser.setFileFilter(new FileNameExtensionFilter("FEF fractal save files", "fef"));
+					int returnVal = chooser.showOpenDialog(FractalExplorer.this);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						SavedView.importSaves(chooser.getSelectedFile(), true);
+					}
+				}
+			});
+
+			
+			menuBar.add(exportButton);
+			menuBar.add(importButton);
+		}
+
+
 		return menuBar;
 	}
 
@@ -366,7 +380,7 @@ public class FractalExplorer extends JFrame{
 			double newRealMax = newRealMin + (f.getMaxReal()-f.getMinReal())*zoomFactor;
 			double newImgMin = zoomPoint.getImaginary() - ((zoomFactor*(f.getMaxImaginary()-f.getMinImaginary()))*ratioY);
 			double newImgMax = newImgMin + (f.getMaxImaginary()-f.getMinImaginary())*zoomFactor;
-			
+
 			// Limit the zoom
 			if((newRealMin < f.MINIMUM_REAL() || newRealMax > f.MAXIMUM_REAL()) && (newImgMin < f.MINIMUM_IMAGINARY() || newImgMax > f.MAXIMUM_IMAGINARY())){
 				f.setRangesDefault();

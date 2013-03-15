@@ -21,7 +21,7 @@ public class BurningShip extends Fractal {
 	}
 
 	
-	protected void paintFractal(Graphics g){
+	protected void calculateFractal(Graphics g){
 		// Paint each pixel with the x axis then the y axis
 		for(int Y=0; Y<=this.getHeight(); Y++){
 			for(int X=0; X<=this.getWidth(); X++){
@@ -42,8 +42,7 @@ public class BurningShip extends Fractal {
 
 
 				// Paint the on the pixel according to the iterations
-				g.setColor(genColor(n,c2));
-				g.drawLine(X, Y, X, Y);
+				paintPixel(g, n, X, Y);
 
 			}
 		}

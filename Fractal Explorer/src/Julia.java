@@ -5,6 +5,7 @@ import java.awt.Graphics;
 public class Julia extends Fractal{
 	
 	private ComplexNumber c;
+	public static final boolean dependent = true;
 
 	public Julia(ComplexNumber c, int iter){
 		super(iter);

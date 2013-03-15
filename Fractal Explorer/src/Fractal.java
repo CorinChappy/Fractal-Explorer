@@ -178,13 +178,13 @@ public abstract class Fractal extends JPanel{
 	// Gets the colour the display from the number of iterations
 	// TODO: create a better algorithm
 	protected Color genColor(int it, ComplexNumber c){
-		/* SUPER FUNKY COlOURS
+		/*/ SUPER FUNKY COlOURS
 		float a = (float) (it + 1 - Math.log(Math.log(Math.sqrt(c.modulusSquared())))/Math.log(2));
 
 		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
 		*/
 
-
+		
 		int div = 1677216/iterations;
 		//int div = 255/iterations;
 
