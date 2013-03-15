@@ -351,7 +351,6 @@ public class SavedView {
 				// If there is a 7th part, try to extract the ComplexNumber from it. Just skip if one of a null is found or if it doesn't match the expected pattern "(double,double)"
 				ComplexNumber fixedComplex = null;
 				if(parts.length == 7 && !(parts[6].equals("(null)") || parts[6].equals("null"))){
-					//if(parts[6].matches("\\(\\d+\\.\\d+,\\d+\\.\\d+\\)")){
 						// Split it up into the real and complex parts
 						String[] complexParts;
 						complexParts = parts[6].substring(parts[6].indexOf('(')+1, parts[6].lastIndexOf(')')).split(",");
@@ -363,9 +362,6 @@ public class SavedView {
 							System.err.println("Error reading line "+lineNum+": fixed complex cannot be read");
 							continue;
 						}
-					//}else{
-					//	System.err.println("Error reading line "+lineNum+": fixed complex does not match format");
-					//}
 
 				}
 				
