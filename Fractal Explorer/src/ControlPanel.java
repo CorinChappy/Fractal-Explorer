@@ -31,7 +31,7 @@ class ControlPanel extends JPanel{
 	Fractal p;
 	
 	// An array containing all the Fractals to be displayed
-    private ArrayList<Class<? extends Fractal>> classes = new ArrayList<Class<? extends Fractal>>();
+    private static ArrayList<Class<? extends Fractal>> classes = new ArrayList<Class<? extends Fractal>>();
 
 	// The text fields
 	private JTextField itDisplay;
@@ -470,9 +470,8 @@ class ControlPanel extends JPanel{
 		maxI.setText(""+p.getMaxImaginary()+"");
 	}
 	
-	public void addFractal(Class<? extends Fractal> c){
+	public static void addFractal(Class<? extends Fractal> c){
 		classes.add(c);
-		updateComboBox();
 	}
 	
 	private void updateComboBox(){
