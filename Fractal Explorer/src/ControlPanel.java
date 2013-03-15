@@ -6,10 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -66,7 +63,7 @@ class ControlPanel extends JPanel{
 		 * Create the control panel
 		 *      - Control panel generated with Eclipse visual class builder
 		 */
-		GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{74, 93, 37, 99, 34, 51, 52, 50, -23, 0};
 		gridBagLayout.rowHeights = new int[]{27, 0, 28, 15, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -126,7 +123,6 @@ class ControlPanel extends JPanel{
 		JLabel lblNewLabel_2 = new JLabel("Enable Caching");
 		lblNewLabel_2.setToolTipText("Disable only if there are problems displaying the Fractal");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.gridheight = 2;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 5;
 		gbc_lblNewLabel_2.gridy = 2;
@@ -136,25 +132,16 @@ class ControlPanel extends JPanel{
 		cacheCheckBox.setToolTipText("Disable only if there are problems displaying the Fractal");
 		cacheCheckBox.setSelected(true);
 		GridBagConstraints gbc_cacheCheckBox = new GridBagConstraints();
-		gbc_cacheCheckBox.gridheight = 2;
 		gbc_cacheCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_cacheCheckBox.gridx = 6;
 		gbc_cacheCheckBox.gridy = 2;
 		add(cacheCheckBox, gbc_cacheCheckBox);
 		
-		JLabel lblRanges = new JLabel("Ranges");
-		GridBagConstraints gbc_lblRanges = new GridBagConstraints();
-		gbc_lblRanges.gridwidth = 3;
-		gbc_lblRanges.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRanges.gridx = 1;
-		gbc_lblRanges.gridy = 4;
-		add(lblRanges, gbc_lblRanges);
-		
 		JLabel lblFractalType = new JLabel("Fractal type");
 		GridBagConstraints gbc_lblFractalType = new GridBagConstraints();
 		gbc_lblFractalType.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFractalType.gridx = 5;
-		gbc_lblFractalType.gridy = 4;
+		gbc_lblFractalType.gridy = 3;
 		add(lblFractalType, gbc_lblFractalType);
 		
 		fractalSelectionBox = new JComboBox<String>();
@@ -164,8 +151,16 @@ class ControlPanel extends JPanel{
 		gbc_fractalSelectionBox.insets = new Insets(0, 0, 5, 5);
 		gbc_fractalSelectionBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_fractalSelectionBox.gridx = 6;
-		gbc_fractalSelectionBox.gridy = 4;
+		gbc_fractalSelectionBox.gridy = 3;
 		add(fractalSelectionBox, gbc_fractalSelectionBox);
+		
+		JLabel lblRanges = new JLabel("Ranges");
+		GridBagConstraints gbc_lblRanges = new GridBagConstraints();
+		gbc_lblRanges.gridwidth = 3;
+		gbc_lblRanges.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRanges.gridx = 1;
+		gbc_lblRanges.gridy = 4;
+		add(lblRanges, gbc_lblRanges);
 		
 		JLabel lblReal = new JLabel("Real");
 		GridBagConstraints gbc_lblReal = new GridBagConstraints();
@@ -202,6 +197,14 @@ class ControlPanel extends JPanel{
 		add(maxR, gbc_maxR);
 		maxR.setColumns(10);
 		
+		JButton genColButton = new JButton("Generate new colour set");
+		GridBagConstraints gbc_genColButton = new GridBagConstraints();
+		gbc_genColButton.gridwidth = 3;
+		gbc_genColButton.insets = new Insets(0, 0, 5, 5);
+		gbc_genColButton.gridx = 5;
+		gbc_genColButton.gridy = 5;
+		add(genColButton, gbc_genColButton);
+		
 		JLabel lblImaginary = new JLabel("Imaginary");
 		GridBagConstraints gbc_lblImaginary = new GridBagConstraints();
 		gbc_lblImaginary.anchor = GridBagConstraints.EAST;
@@ -237,13 +240,13 @@ class ControlPanel extends JPanel{
 		add(maxI, gbc_maxI);
 		maxI.setColumns(10);
 		
-		JButton genColButton = new JButton("Generate new colour set");
-		GridBagConstraints gbc_genColButton = new GridBagConstraints();
-		gbc_genColButton.gridwidth = 3;
-		gbc_genColButton.insets = new Insets(0, 0, 5, 5);
-		gbc_genColButton.gridx = 5;
-		gbc_genColButton.gridy = 6;
-		add(genColButton, gbc_genColButton);
+		JButton defColButton = new JButton("Default colour set");
+		GridBagConstraints gbc_defColButton = new GridBagConstraints();
+		gbc_defColButton.gridwidth = 3;
+		gbc_defColButton.insets = new Insets(0, 0, 5, 5);
+		gbc_defColButton.gridx = 5;
+		gbc_defColButton.gridy = 6;
+		add(defColButton, gbc_defColButton);
 		
 		JButton resetSet = new JButton("Reset");
 		GridBagConstraints gbc_resetSet = new GridBagConstraints();
@@ -410,13 +413,19 @@ class ControlPanel extends JPanel{
 			}
 		});
 		
+		// Listeners for the colour set buttons
 		genColButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				Fractal.generateColourSet();
 				p.repaint();
 			}
 		});
-		
+		defColButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Fractal.deleteColourSet();
+				p.repaint();
+			}
+		});
 		
 		
 		// Only the Mandelbrot can have a Juila set

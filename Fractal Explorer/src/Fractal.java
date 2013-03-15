@@ -191,35 +191,25 @@ public abstract class Fractal extends JPanel{
 		return new Color(Color.HSBtoRGB(0.95f + 10 * a ,0.6f,1.0f));
 		*/
 
-		/*
-		int div = 1677216/iterations;
-		//int div = 255/iterations;
+		
 
-		int colnum = div*it;
-		return new Color(colnum);*/
-		
-		
-		/*if(it >= iterations){
-			return Color.BLACK;
+		// Default colour scheme
+		if(colours == null){
+			int div = 1677216/iterations;
+
+			int colnum = div*it;
+			return new Color(colnum);
 		}
-		
-		for(int i=0; i<it; i++){
-			col = col.darker();
-			if(col.equals(Color.BLACK)){
-				//col = new Color(1+(int) (Math.random()*255),1+(int) (Math.random()*255),1+(int) (Math.random()*255));
-			}
-		}
-		return col;*/
-		
-		if(colours == null || colours.length < MAX_ITERATIONS){
+		// Generate new colour set if it is too small
+		if(colours.length < MAX_ITERATIONS){
 			generateColourSet();
 		}
-		
+
 		// If it's in the set return black
 		if(it >= iterations){
 			return Color.BLACK;
 		}
-		
+
 		// Otherwise return it's generated colour
 		return colours[it];
 	}
@@ -250,6 +240,9 @@ public abstract class Fractal extends JPanel{
 	}
 
 	public void setMaxIterations(int i){
+		// Cap at the max and min iterations
+		if(i > MAX_ITERATIONS){i = MAX_ITERATIONS;}
+		if(i < MIN_ITERATIONS){i = MIN_ITERATIONS;}
 		iterations = i;
 		recalculate = true;
 	}
@@ -341,7 +334,9 @@ public abstract class Fractal extends JPanel{
 	public static Color getBaseColour(){
 		return baseColour;
 	}
-	
+	public static void deleteColourSet(){
+		Fractal.colours = null;
+	}
 	
 	
 	
