@@ -47,6 +47,9 @@ class ControlPanel extends JPanel{
 	public ControlPanel(Fractal f) {
 		this.p = f;
 		
+		classes.remove(Mandelbrot.class);
+    	classes.remove(BurningShip.class);
+		
         // Add the current fractal's class to the Array List
         classes.add(f.getClass());
         // Add the defaults to the ArrayList (but not if it has already been defined above)
