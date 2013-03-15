@@ -17,8 +17,9 @@ public class FractalExplorer extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new FractalExplorer().createMandelbrot();
-				//new FractalExplorer().createFractal(new BurningShip(), true);
+				FractalExplorer f = new FractalExplorer();
+				f.createMandelbrot();
+				f.changeFractal(new BurningShip(),true);
 			}
 		});
 	}
@@ -107,7 +108,9 @@ public class FractalExplorer extends JFrame{
 				ControlPanel controller = new ControlPanel(f);
 				this.add(controller,BorderLayout.SOUTH);
 				this.controller = controller;
-				f.setControlPanel(controller);
+				f.setControlPanel(controller);				
+				// Make a new MenuBar
+				this.setJMenuBar(this.createMenuBar());
 
 				this.setPreferredSize(new Dimension(585, 655));
 				this.setMinimumSize(new Dimension(535, 575));
@@ -119,8 +122,11 @@ public class FractalExplorer extends JFrame{
 			// Remove the axis
 			f.displayAxis(false);
 			this.controller = null;
+			// Make a new MenuBar
+			this.setJMenuBar(this.createMenuBar());
 		}
 		this.F = f;
+		this.pack();
 		return oldF;
 	}
 
